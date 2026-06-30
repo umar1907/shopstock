@@ -1,0 +1,304 @@
+{% schema %}
+{
+  "name": "t:sections.header-banner.name",
+  "tag": "section",
+  "class": "header-banner-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:sections.header-banner.settings.banner_image.label",
+      "info": "t:sections.header-banner.settings.banner_image.info"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "t:sections.header-banner.settings.banner_title.label",
+      "default": "Premium Stock Market Dashboard"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_subtitle",
+      "label": "t:sections.header-banner.settings.banner_subtitle.label",
+      "default": "Real-time market data, advanced analytics, and professional trading tools all in one powerful platform.",
+      "default": "Real-time market data, advanced analytics, and professional trading tools all in one powerful platform."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.header-banner.settings.button_link.label"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:sections.header-banner.settings.button_text.label",
+      "default": "Get Started Today"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.header-banner.settings.padding_top.label",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.header-banner.settings.padding_bottom.label",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.header-banner.presets.name",
+      "category": "t:sections.header-banner.presets.category",
+      "settings": {
+        "banner_image": "",
+        "banner_title": "Premium Stock Market Dashboard",
+        "banner_subtitle": "Real-time market data, advanced analytics, and professional trading tools all in one powerful platform.",
+        "button_text": "Get Started Today",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+  ],
+  "locales": {
+    "en": {
+      "sections": {
+        "header-banner": {
+          "name": "Header Banner",
+          "settings": {
+            "banner_image": {
+              "label": "Banner Image",
+              "info": "Upload a high-quality banner image for your header section"
+            },
+            "banner_title": {
+              "label": "Banner Title"
+            },
+            "banner_subtitle": {
+              "label": "Banner Subtitle"
+            },
+            "button_link": {
+              "label": "Button Link"
+            },
+            "button_text": {
+              "label": "Button Text"
+            },
+            "padding_top": {
+              "label": "Padding Top (px)"
+            },
+            "padding_bottom": {
+              "label": "Padding Bottom (px)"
+            }
+          },
+          "presets": {
+            "name": "Header Banner",
+            "category": "Header & Banner"
+          }
+        }
+      }
+    }
+  }
+}
+{% endschema %}
+{% stylesheet %}
+.header-banner-section {
+  position: relative;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  padding-top: {{ section.settings.padding_top | plus: 0 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | plus: 0 }}px;
+}
+
+.header-banner-inner {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.header-banner-content {
+  flex: 1 1 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header-banner-title {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.header-banner-subtitle {
+  font-size: clamp(1.125rem, 3vw, 1.25rem);
+  line-height: 1.6;
+  color: #666;
+  max-width: 400px;
+}
+
+.header-banner-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.header-banner-button:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header-banner-button:active {
+  transform: translateY(0);
+}
+
+.header-banner-button .icon-arrow {
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.header-banner-button:hover .icon-arrow {
+  transform: translateX(4px);
+}
+
+.header-banner-image {
+  flex: 1 1 500px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.header-banner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.header-banner-image:hover img {
+  transform: scale(1.02);
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 992px) {
+  .header-banner-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-banner-content {
+    align-items: center;
+    order: 2;
+  }
+
+  .header-banner-image {
+    order: 1;
+    margin-bottom: 2rem;
+  }
+
+  .header-banner-title {
+    text-align: center;
+  }
+
+  .header-banner-subtitle {
+    text-align: center;
+  }
+
+  .header-banner-button {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header-banner-section {
+    padding-top: calc({{ section.settings.padding_top | plus: 0 }}px - 20px);
+    padding-bottom: calc({{ section.settings.padding_bottom | plus: 0 }}px - 20px);
+  }
+
+  .header-banner-title {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .header-banner-subtitle {
+    font-size: clamp(1rem, 4vw, 1.125rem);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header-banner-section {
+    padding-top: calc({{ section.settings.padding_top | plus: 0 }}px - 30px);
+    padding-bottom: calc({{ section.settings.padding_bottom | plus: 0 }}px - 30px);
+  }
+
+  .header-banner-title {
+    font-size: clamp(1.75rem, 10vw, 2.5rem);
+  }
+
+  .header-banner-subtitle {
+    font-size: clamp(0.875rem, 5vw, 1rem);
+  }
+
+  .header-banner-button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+}
+{% endstylesheet %}
+{% javascript %}
+class HeaderBanner extends HTMLElement {
+  constructor() {
+    super();
+    
+    this.addEventListener('click', this._onClick.bind(this));
+  }
+
+}
+
+  connectedCallback() {
+    // Add any initialization logic here if needed
+  }
+
+  disconnectedCallback() {
+    // Cleanup if needed
+  }
+
+  _onClick(event) {
+    // Handle button clicks or other interactions
+    const button = event.target.closest('.header-banner-button');
+    if (button) {
+      // Button click handling can be added here if needed
+    }
+  }
+}
+
+customElements.define('header-banner', HeaderBanner);
+{% endjavascript %}

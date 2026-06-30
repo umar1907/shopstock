@@ -1,0 +1,36 @@
+{% schema %}
+{
+  "name": "t:sections.premium-marketplace-hero.name",
+  "tag": "section",
+  "class": "premium-marketplace-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Image & Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "t:sections.premium-marketplace-hero.settings.hero_image.label",
+      "info": "t:sections.premium-marketplace-hero.settings.hero_image.info"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "t:sections.premium-marketplace-hero.settings.hero_image_mobile.label",
+      "info": "t:sections.premium-marketplace-hero.settings.hero_image_mobile.info"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:sections.premium-marketplace-hero.settings.overlay_opacity.label",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70,
+      "info": "t:sections.premium-marketplace-hero.settings.overlay_opacity.info"
+    }
+  ]
+}
+{% endschema %}

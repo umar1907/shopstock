@@ -1,0 +1,784 @@
+{%- comment -%}
+  FILE: sections/premium-marketplace-hero.liquid
+  Premium Custom Hero Section - Stock Shop
+{%- endcomment -%}
+
+{%- style -%}
+  :root {
+    --hero-primary: {{ section.settings.color_primary | default: '#C79A3B' }};
+    --hero-primary-hover: {{ section.settings.color_primary_hover | default: '#B58A32' }};
+    --hero-white: #FFFFFF;
+    --hero-text: {{ section.settings.color_text | default: '#232323' }};
+    --hero-border-radius: {{ section.settings.border_radius }}px;
+    --hero-glass-bg: rgba(255, 255, 255, 0.15);
+    --hero-glass-border: rgba(255, 255, 255, 0.25);
+    --hero-glass-blur: blur(25px);
+    --hero-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Core Layout */
+  .premium-hero-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .premium-hero-wrapper[data-animated="true"] .anim-element {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .premium-hero-wrapper[data-animated="true"] .anim-element.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Heights */
+  .premium-hero-wrapper { height: 920px; }
+  @media (max-width: 1440px) { .premium-hero-wrapper { height: 850px; } }
+  @media (max-width: 992px) { .premium-hero-wrapper { height: auto; min-height: 760px; padding: 120px 0 80px; } }
+  @media (max-width: 768px) { .premium-hero-wrapper { min-height: 680px; padding: 100px 0 60px; } }
+
+  /* Background Image & Overlay */
+  .hero-bg-media {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    animation: slowZoom 20s ease-in-out infinite alternate;
+  }
+  @keyframes slowZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(90deg, rgba(15,25,15,0.85) 0%, rgba(15,25,15,0.45) 50%, rgba(15,25,15,0.15) 100%);
+    z-index: 2;
+  }
+
+  /* Grid Container */
+  .hero-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 992px) {
+    .hero-container { grid-template-columns: 1fr; gap: 60px; }
+  }
+  @media (max-width: 768px) {
+    .hero-container { padding: 0 20px; }
+  }
+
+  /* Left Content */
+  .hero-content {
+    color: var(--hero-white);
+    max-width: 720px;
+  }
+  
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--hero-primary);
+    color: var(--hero-white);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 16px rgba(199, 154, 59, 0.2);
+  }
+
+  .hero-headline {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.05;
+    margin: 0 0 24px 0;
+    letter-spacing: -1.5px;
+  }
+  .hero-headline .highlight { color: var(--hero-primary); }
+  @media (max-width: 1200px) { .hero-headline { font-size: 56px; } }
+  @media (max-width: 768px) { .hero-headline { font-size: 42px; } }
+
+  .hero-subheading {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    max-width: 620px;
+    margin: 0 0 40px 0;
+  }
+  @media (max-width: 768px) { .hero-subheading { font-size: 16px; } }
+
+  /* Buttons */
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 768px) {
+    .hero-actions { flex-direction: column; width: 100%; }
+  }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 60px;
+    padding: 0 32px;
+    border-radius: var(--hero-border-radius);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  @media (max-width: 768px) { .hero-btn { width: 100%; } }
+
+  .hero-btn-primary {
+    background: var(--hero-primary);
+    color: var(--hero-white);
+    box-shadow: 0 8px 24px rgba(199, 154, 59, 0.3);
+  }
+  .hero-btn-primary:hover {
+    background: var(--hero-primary-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(199, 154, 59, 0.4);
+  }
+
+  .hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: var(--hero-glass-blur);
+    -webkit-backdrop-filter: var(--hero-glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--hero-white);
+  }
+  .hero-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+  }
+
+  /* Trust Row */
+  .hero-trust-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+  }
+  .trust-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+  }
+
+  /* Right Visuals (Floating Cards) */
+  .hero-visuals {
+    position: relative;
+    height: 600px;
+    width: 100%;
+  }
+  @media (max-width: 992px) {
+    .hero-visuals { height: 450px; }
+  }
+
+  .glass-card {
+    position: absolute;
+    background: var(--hero-glass-bg);
+    backdrop-filter: var(--hero-glass-blur);
+    -webkit-backdrop-filter: var(--hero-glass-blur);
+    border: 1px solid var(--hero-glass-border);
+    border-radius: var(--hero-border-radius);
+    padding: 20px;
+    box-shadow: var(--hero-shadow);
+    color: var(--hero-white);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+
+  /* Card Specifics */
+  .card-featured {
+    top: 10%; right: 5%; width: 280px; z-index: 4;
+    animation-delay: 0s;
+  }
+  .card-featured img {
+    width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 12px;
+  }
+  .card-featured .details { display: flex; justify-content: space-between; align-items: end;}
+  .card-featured h4 { margin: 0; font-size: 16px; font-weight: 600;}
+  .card-featured p { margin: 4px 0 0 0; font-size: 13px; color: rgba(255,255,255,0.7);}
+  .card-featured .price { font-size: 18px; font-weight: 700; color: var(--hero-primary);}
+
+  .card-stats {
+    bottom: 10%; left: 0; width: 240px; z-index: 5;
+    animation-delay: -2s;
+  }
+  .stat-row { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center;}
+  .stat-row:last-child { margin-bottom: 0;}
+  .stat-value { font-size: 20px; font-weight: 700; color: var(--hero-primary);}
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.8);}
+
+  .card-sale {
+    bottom: -5%; right: 15%; width: 220px; z-index: 3;
+    animation-delay: -4s;
+    background: rgba(255,255,255,0.95);
+    color: var(--hero-text);
+  }
+  .sale-badge { background: #E6F4EA; color: #1E8E3E; font-size: 11px; padding: 4px 8px; border-radius: 20px; font-weight: 600; display: inline-block; margin-bottom: 8px;}
+  
+  .card-search {
+    top: -5%; left: 10%; width: 300px; z-index: 2;
+    animation-delay: -1s;
+  }
+  .search-mockup { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; display: flex; align-items: center; gap: 10px;}
+  .cursor-line { display: inline-block; width: 2px; height: 16px; background: var(--hero-white); animation: blink 1s step-end infinite;}
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Background Decorations */
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: 1;
+  }
+  .blob-1 { top: 20%; right: 20%; width: 300px; height: 300px; background: var(--hero-primary); }
+  .blob-2 { bottom: 10%; left: 30%; width: 250px; height: 250px; background: #ffffff; }
+
+  /* Bottom Stats Container */
+  .hero-bottom-bar {
+    position: absolute;
+    bottom: 80px; left: 0; width: 100%;
+    z-index: 20;
+  }
+  .stats-grid {
+    max-width: 1440px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  }
+  .bottom-stat-card {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+  }
+  .bottom-stat-card:hover { transform: translateY(-5px); }
+  .bottom-stat-title { font-size: 14px; font-weight: 600; color: var(--hero-text); margin-bottom: 4px; }
+  .bottom-stat-num { font-size: 28px; font-weight: 700; color: var(--hero-primary); }
+
+  @media (max-width: 992px) {
+    .hero-bottom-bar { position: relative; bottom: 0; margin-top: 60px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .stats-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 20px; gap: 16px;}
+    .bottom-stat-card { min-width: 200px; scroll-snap-align: start; }
+  }
+
+  /* Bottom Curve Divider */
+  .hero-curve {
+    position: absolute;
+    bottom: -2px; left: 0; width: 100%;
+    line-height: 0;
+    z-index: 15;
+  }
+  .hero-curve svg { width: 100%; height: 80px; display: block; }
+  @media (max-width: 768px) { .hero-curve svg { height: 40px; } }
+
+  /* Scroll Indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--hero-text); font-size: 12px; font-weight: 600; z-index: 30;
+  }
+  .mouse-icon {
+    width: 24px; height: 36px; border: 2px solid var(--hero-text); border-radius: 20px; position: relative;
+  }
+  .mouse-wheel {
+    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 8px; background: var(--hero-text); border-radius: 4px;
+    animation: scrollWheel 2s infinite;
+  }
+  @keyframes scrollWheel {
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    100% { transform: translate(-50%, 12px); opacity: 0; }
+  }
+
+{%- endstyle -%}
+
+<div class="premium-hero-wrapper" data-animated="{{ section.settings.enable_animations }}">
+  
+  {%- if section.settings.bg_image != blank -%}
+    <img src="{{ section.settings.bg_image | image_url: width: 2400 }}" 
+         class="hero-bg-media" 
+         alt="Hero Background" 
+         loading="eager"
+         fetchpriority="high">
+  {%- else -%}
+    <div class="hero-bg-media" style="background: #2a3a2a;"></div>
+  {%- endif -%}
+
+  <div class="hero-overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+
+  <div class="hero-container">
+    
+    <!-- LEFT COLUMN: CONTENT -->
+    <div class="hero-content">
+      {%- if section.settings.badge_text != blank -%}
+        <div class="hero-badge anim-element" style="transition-delay: 0.1s;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          {{ section.settings.badge_text }}
+        </div>
+      {%- endif -%}
+
+      <h1 class="hero-headline anim-element" style="transition-delay: 0.2s;">
+        {%- assign headline_parts = section.settings.headline | split: section.settings.highlight_text -%}
+        {{ headline_parts[0] }}
+        {%- if section.settings.highlight_text != blank -%}
+          <span class="highlight">{{ section.settings.highlight_text }}</span>
+        {%- endif -%}
+        {{ headline_parts[1] }}
+      </h1>
+
+      <p class="hero-subheading anim-element" style="transition-delay: 0.3s;">
+        {{ section.settings.subheading }}
+      </p>
+
+      <div class="hero-actions anim-element" style="transition-delay: 0.4s;">
+        {%- if section.settings.btn_primary_text != blank -%}
+          <a href="{{ section.settings.btn_primary_link }}" class="hero-btn hero-btn-primary">
+            {{ section.settings.btn_primary_text }}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn_secondary_text != blank -%}
+          <a href="{{ section.settings.btn_secondary_link }}" class="hero-btn hero-btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            {{ section.settings.btn_secondary_text }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="hero-trust-row anim-element" style="transition-delay: 0.5s;">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'trust_badge' -%}
+            <div class="trust-item">
+              <div class="trust-icon">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              {{ block.settings.title }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: VISUALS -->
+    <div class="hero-visuals desktop-only">
+      <div class="bg-blob blob-1"></div>
+      <div class="bg-blob blob-2"></div>
+
+      <!-- Card 1: Search -->
+      <div class="glass-card card-search anim-element" style="transition-delay: 0.6s;">
+        <div style="font-size: 12px; margin-bottom: 8px; color: rgba(255,255,255,0.7);">Find Livestock</div>
+        <div class="search-mockup">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span id="typing-text"></span><span class="cursor-line"></span>
+        </div>
+      </div>
+
+      <!-- Card 2: Featured -->
+      <div class="glass-card card-featured anim-element" style="transition-delay: 0.7s;">
+        {%- if section.settings.featured_image != blank -%}
+          <img src="{{ section.settings.featured_image | image_url: width: 400 }}" alt="Featured Livestock">
+        {%- else -%}
+          <div style="width: 100%; height: 160px; background: #444; border-radius: 12px; margin-bottom: 12px;"></div>
+        {%- endif -%}
+        <div class="details">
+          <div>
+            <h4>{{ section.settings.featured_title | default: 'Texas Angus Bull' }}</h4>
+            <p><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>{{ section.settings.featured_location | default: 'Dallas, TX' }}</p>
+          </div>
+          <div class="price">{{ section.settings.featured_price | default: '$4,500' }}</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Stats -->
+      <div class="glass-card card-stats anim-element" style="transition-delay: 0.8s;">
+        <div class="stat-row">
+          <div>
+            <div class="stat-value counter" data-target="15000">0</div>
+            <div class="stat-label">Active Listings</div>
+          </div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--hero-primary)" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div style="height:1px; background:var(--hero-glass-border); margin:12px 0;"></div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-value">98%</div>
+            <div class="stat-label">Verified Sellers</div>
+          </div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        </div>
+      </div>
+
+      <!-- Card 4: Sale -->
+      <div class="glass-card card-sale anim-element" style="transition-delay: 0.9s;">
+        <div class="sale-badge">Sold Today</div>
+        <h4 style="margin:0 0 4px 0; font-size: 15px;">{{ section.settings.sale_title | default: 'Quarter Horse' }}</h4>
+        <div style="font-weight: 700; color: var(--hero-text); font-size: 18px;">{{ section.settings.sale_price | default: '$12,000' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Floating Stats -->
+  <div class="hero-bottom-bar anim-element" style="transition-delay: 1s;">
+    <div class="stats-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'stat_card' -%}
+          <div class="bottom-stat-card">
+            <div class="bottom-stat-title">{{ block.settings.title }}</div>
+            <div class="bottom-stat-num">{{ block.settings.number }}</div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <!-- Organic Bottom Curve -->
+  <div class="hero-curve">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="var(--hero-white)">
+      <path d="M0,0 C480,80 960,80 1440,0 L1440,80 L0,80 Z"></path>
+    </svg>
+  </div>
+
+  <!-- Scroll Indicator -->
+  {%- if section.settings.show_scroll_indicator -%}
+    <div class="scroll-indicator anim-element" style="transition-delay: 1.2s;">
+      <div class="mouse-icon"><div class="mouse-wheel"></div></div>
+      Scroll to Explore
+    </div>
+  {%- endif -%}
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Trigger Entrance Animations
+    const heroWrapper = document.querySelector('.premium-hero-wrapper');
+    if (heroWrapper.dataset.animated === 'true') {
+      setTimeout(() => {
+        const elements = document.querySelectorAll('.anim-element');
+        elements.forEach(el => el.classList.add('is-visible'));
+      }, 100);
+    }
+
+    // 2. Typing Effect for Search Card
+    const typingElement = document.getElementById('typing-text');
+    if (typingElement) {
+      const words = ['Premium Cattle', 'Quarter Horses', 'Farm Equipment', 'Boer Goats'];
+      let wordIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function type() {
+        const currentWord = words[wordIndex];
+        if (isDeleting) {
+          typingElement.textContent = currentWord.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typingElement.textContent = currentWord.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 50 : 100;
+
+        if (!isDeleting && charIndex === currentWord.length) {
+          typeSpeed = 2000; // Pause at end of word
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          typeSpeed = 500; // Pause before new word
+        }
+        setTimeout(type, typeSpeed);
+      }
+      setTimeout(type, 1500); // Initial delay
+    }
+
+    // 3. Count-up Animation
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200; // The lower the slower
+
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText.replace(/,/g, '');
+        const inc = target / speed;
+
+        if (count < target) {
+          counter.innerText = Math.ceil(count + inc).toLocaleString() + '+';
+          setTimeout(updateCount, 15);
+        } else {
+          counter.innerText = target.toLocaleString() + '+';
+        }
+      };
+      
+      // Trigger when visible
+      const observer = new IntersectionObserver((entries) => {
+        if(entries[0].isIntersecting){
+          updateCount();
+          observer.disconnect();
+        }
+      });
+      observer.observe(counter);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Premium Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visuals"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image",
+      "info": "Use a cinematic, high-quality farm/livestock image."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Darkness",
+      "default": 85
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Pill Badge Text",
+      "default": "America's Trusted Livestock Marketplace"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Buy & Sell Premium Livestock With Confidence"
+    },
+    {
+      "type": "text",
+      "id": "highlight_text",
+      "label": "Highlight Word(s)",
+      "default": "Premium Livestock",
+      "info": "This word will be colored gold."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Connect with verified buyers and trusted sellers across the country. Discover quality cattle, horses, sheep, goats, poultry, and farm equipment—all in one secure marketplace."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_text",
+      "label": "Primary Button Text",
+      "default": "Browse Listings"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_text",
+      "label": "Secondary Button Text",
+      "default": "Sell Your Livestock"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Right Side Cards Details"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Featured Card Image"
+    },
+    {
+      "type": "text",
+      "id": "featured_title",
+      "label": "Featured Card Title",
+      "default": "Texas Angus Bull"
+    },
+    {
+      "type": "text",
+      "id": "featured_price",
+      "label": "Featured Card Price",
+      "default": "$8,900"
+    },
+    {
+      "type": "text",
+      "id": "featured_location",
+      "label": "Featured Card Location",
+      "default": "Dallas, TX"
+    },
+    {
+      "type": "text",
+      "id": "sale_title",
+      "label": "Recent Sale Title",
+      "default": "Quarter Horse"
+    },
+    {
+      "type": "text",
+      "id": "sale_price",
+      "label": "Recent Sale Price",
+      "default": "$12,000"
+    },
+    {
+      "type": "header",
+      "content": "Design & Settings"
+    },
+    {
+      "type": "color",
+      "id": "color_primary",
+      "label": "Primary Color (Gold)",
+      "default": "#C79A3B"
+    },
+    {
+      "type": "color",
+      "id": "color_primary_hover",
+      "label": "Primary Hover",
+      "default": "#B58A32"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Base Text Color",
+      "default": "#232323"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Border Radius",
+      "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Enable Load Animations",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Show Scroll Indicator",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_badge",
+      "name": "Trust Checkmark",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Text",
+          "default": "Verified Sellers"
+        }
+      ]
+    },
+    {
+      "type": "stat_card",
+      "name": "Bottom Stat Card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Verified Listings"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "15K+"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Marketplace Hero",
+      "blocks": [
+        { "type": "trust_badge", "settings": { "title": "Verified Sellers" } },
+        { "type": "trust_badge", "settings": { "title": "Secure Payments" } },
+        { "type": "trust_badge", "settings": { "title": "Nationwide Listings" } },
+        { "type": "stat_card", "settings": { "title": "Verified Listings", "number": "15K+" } },
+        { "type": "stat_card", "settings": { "title": "Verified Farmers", "number": "6,000+" } },
+        { "type": "stat_card", "settings": { "title": "Average Rating", "number": "4.9★" } },
+        { "type": "stat_card", "settings": { "title": "Transactions", "number": "$28M+" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
