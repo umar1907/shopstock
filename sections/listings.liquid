@@ -1,0 +1,1148 @@
+{% comment %}
+  ============================================================
+  Stock Shop — Premium Marketplace Listings
+  sections/listings.liquid
+
+  Self-contained section: Liquid + HTML + CSS + JS.
+  Modes: Manual product blocks > Selected Collection > Random Marketplace Products
+  ============================================================
+{% endcomment %}
+
+{%- liquid
+  assign limit = section.settings.product_limit | times: 1
+  assign mode = section.settings.product_source_mode
+  assign card_radius = section.settings.card_radius
+  assign cols_desktop = section.settings.columns_desktop
+  assign cols_tablet = section.settings.columns_tablet
+  assign cols_mobile = section.settings.columns_mobile
+  assign batch_size = section.settings.load_more_batch_size
+  assign sid = section.id
+-%}
+
+<style>
+  #shell-{{ sid }} {
+    --gold: {{ section.settings.color_accent_gold }};
+    --green: {{ section.settings.color_cta_hover_green }};
+    --bg: {{ section.settings.color_background }};
+    --card-bg: {{ section.settings.color_card_bg }};
+    --card-border: {{ section.settings.color_card_border }};
+    --badge-bg: {{ section.settings.color_badge_bg }};
+    --badge-text: {{ section.settings.color_badge_text }};
+    --heading-color: {{ section.settings.color_text_heading }};
+    --body-color: {{ section.settings.color_text_body }};
+    --radius: {{ card_radius }}px;
+    --heading-size: {{ section.settings.heading_font_size }}px;
+    --body-size: {{ section.settings.body_font_size }}px;
+    --cols-desktop: {{ cols_desktop }};
+    --cols-tablet: {{ cols_tablet }};
+    --cols-mobile: {{ cols_mobile }};
+    --gap: 28px;
+    --ease: cubic-bezier(.22,1,.36,1);
+    --speed: 350ms;
+
+    background: var(--bg);
+    padding: 120px 40px;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--body-color);
+    overflow: hidden;
+  }
+
+  #shell-{{ sid }} *, #shell-{{ sid }} *::before, #shell-{{ sid }} *::after {
+    box-sizing: border-box;
+  }
+
+  #shell-{{ sid }} .ss-container {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Header ---------- */
+  #shell-{{ sid }} .ss-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  #shell-{{ sid }} .ss-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gold), color-mix(in srgb, var(--gold) 70%, white));
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+
+  #shell-{{ sid }} .ss-heading-block { max-width: 760px; }
+
+  #shell-{{ sid }} .ss-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, var(--heading-size));
+    line-height: 1.1;
+    color: var(--heading-color);
+    margin: 0 0 18px;
+  }
+
+  #shell-{{ sid }} .ss-description {
+    max-width: 700px;
+    font-size: var(--body-size);
+    line-height: 1.6;
+    color: var(--body-color);
+    opacity: .8;
+    margin: 0;
+  }
+
+  #shell-{{ sid }} .ss-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    padding: 16px 28px;
+    border: 1.5px solid var(--heading-color);
+    border-radius: 999px;
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all var(--speed) var(--ease);
+  }
+  #shell-{{ sid }} .ss-view-all:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #fff;
+  }
+  #shell-{{ sid }} .ss-view-all svg { transition: transform var(--speed) var(--ease); }
+  #shell-{{ sid }} .ss-view-all:hover svg { transform: translateX(4px); }
+
+  /* ---------- Filter Bar ---------- */
+  #shell-{{ sid }} .ss-filterbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    background: rgba(255,255,255,.65);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255,255,255,.6);
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 44px;
+    box-shadow: 0 8px 30px rgba(20,20,20,.05);
+  }
+
+  #shell-{{ sid }} .ss-filterbar select,
+  #shell-{{ sid }} .ss-filterbar input[type="text"],
+  #shell-{{ sid }} .ss-filterbar input[type="number"] {
+    border: 1px solid #E4E2DB;
+    background: #fff;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: var(--heading-color);
+    font-family: inherit;
+    min-width: 130px;
+    outline: none;
+    transition: border-color var(--speed) var(--ease);
+  }
+  #shell-{{ sid }} .ss-filterbar select:focus,
+  #shell-{{ sid }} .ss-filterbar input:focus { border-color: var(--gold); }
+
+  #shell-{{ sid }} .ss-search-wrap { position: relative; flex: 1; min-width: 200px; }
+  #shell-{{ sid }} .ss-search-wrap input { width: 100%; padding-left: 38px; }
+  #shell-{{ sid }} .ss-search-wrap svg {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px; opacity: .5; pointer-events: none;
+  }
+
+  #shell-{{ sid }} .ss-price-range { display: flex; align-items: center; gap: 6px; }
+  #shell-{{ sid }} .ss-price-range input { width: 90px; }
+
+  #shell-{{ sid }} .ss-toggle {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; border: 1px solid #E4E2DB; border-radius: 999px;
+    padding: 9px 16px; font-size: 13px; font-weight: 500; cursor: pointer;
+    user-select: none;
+  }
+  #shell-{{ sid }} .ss-toggle input { display: none; }
+  #shell-{{ sid }} .ss-toggle .dot {
+    width: 10px; height: 10px; border-radius: 50%; background: #D9D6CC;
+    transition: background var(--speed) var(--ease);
+  }
+  #shell-{{ sid }} .ss-toggle input:checked ~ .dot { background: var(--gold); }
+
+  #shell-{{ sid }} .ss-reset {
+    background: transparent;
+    border: none;
+    color: var(--body-color);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 9px 6px;
+    opacity: .7;
+  }
+  #shell-{{ sid }} .ss-reset:hover { opacity: 1; color: var(--gold); }
+
+  /* ---------- Grid ---------- */
+  #shell-{{ sid }} .ss-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols-desktop), 1fr);
+    gap: var(--gap);
+  }
+
+  @media (max-width: 1200px) {
+    #shell-{{ sid }} .ss-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 989px) {
+    #shell-{{ sid }} .ss-grid { grid-template-columns: repeat(var(--cols-tablet), 1fr); }
+    #shell-{{ sid }} { padding: 80px 24px; }
+  }
+  @media (max-width: 599px) {
+    #shell-{{ sid }} .ss-grid { grid-template-columns: repeat(var(--cols-mobile), 1fr); gap: 16px; }
+    #shell-{{ sid }} .ss-heading { font-size: 32px; }
+    #shell-{{ sid }} .ss-header { align-items: flex-start; }
+  }
+  @media (max-width: 380px) {
+    #shell-{{ sid }} .ss-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Card ---------- */
+  #shell-{{ sid }} .ss-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease), border-color var(--speed) var(--ease);
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  #shell-{{ sid }} .ss-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #shell-{{ sid }} .ss-card.is-hidden-filtered { display: none !important; }
+  #shell-{{ sid }} .ss-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(20,20,20,.12);
+    border-color: var(--gold);
+  }
+
+  #shell-{{ sid }} .ss-card-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #eee;
+  }
+  #shell-{{ sid }} .ss-card-media img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 600ms var(--ease);
+  }
+  #shell-{{ sid }} .ss-card:hover .ss-card-media img { transform: scale(1.08); }
+
+  #shell-{{ sid }} .ss-media-overlay {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 14px 16px 12px;
+    background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,0));
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  #shell-{{ sid }} .ss-badges {
+    position: absolute; top: 14px; left: 14px;
+    display: flex; flex-direction: column; gap: 6px; z-index: 2;
+  }
+  #shell-{{ sid }} .ss-badge-pill {
+    font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px; color: #fff; width: max-content;
+  }
+  #shell-{{ sid }} .ss-badge-verified { background: #2E6F5E; }
+  #shell-{{ sid }} .ss-badge-featured { background: {{ section.settings.color_accent_gold }}; }
+  #shell-{{ sid }} .ss-badge-new { background: #3E6BD6; }
+  #shell-{{ sid }} .ss-badge-sold { background: #7A7A7A; }
+  #shell-{{ sid }} .ss-badge-auction { background: #A5432C; }
+  #shell-{{ sid }} .ss-badge-editors-pick { background: #7C4FBF; }
+  #shell-{{ sid }} .ss-badge-hot-deal { background: #D6423E; }
+
+  #shell-{{ sid }} .ss-quick-actions {
+    position: absolute; top: 14px; right: 14px; z-index: 2;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  #shell-{{ sid }} .ss-glass-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,.75);
+    backdrop-filter: blur(6px);
+    border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transform: translateX(60px);
+    opacity: 0;
+    transition: all var(--speed) var(--ease);
+  }
+  #shell-{{ sid }} .ss-card:hover .ss-glass-btn { transform: translateX(0); opacity: 1; }
+  #shell-{{ sid }} .ss-quick-actions .ss-glass-btn:nth-child(1) { transition-delay: 40ms; }
+  #shell-{{ sid }} .ss-quick-actions .ss-glass-btn:nth-child(2) { transition-delay: 80ms; }
+  #shell-{{ sid }} .ss-quick-actions .ss-glass-btn:nth-child(3) { transition-delay: 120ms; }
+  #shell-{{ sid }} .ss-quick-actions .ss-glass-btn:nth-child(4) { transition-delay: 160ms; }
+  #shell-{{ sid }} .ss-glass-btn:hover { background: var(--gold); }
+  #shell-{{ sid }} .ss-glass-btn:hover svg { stroke: #fff; }
+  #shell-{{ sid }} .ss-glass-btn svg { width: 16px; height: 16px; stroke: var(--heading-color); transition: transform var(--speed) var(--ease); }
+  #shell-{{ sid }} .ss-glass-btn.is-active svg { fill: var(--gold); stroke: var(--gold); }
+  #shell-{{ sid }} .ss-wishlist-btn.is-bouncing svg { animation: ssBounce 500ms var(--ease); }
+  @keyframes ssBounce {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.4) rotate(-12deg); }
+    60% { transform: scale(.9) rotate(6deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  #shell-{{ sid }} .ss-card-body {
+    padding: 18px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  #shell-{{ sid }} .ss-card-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.3;
+    color: var(--heading-color);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  #shell-{{ sid }} .ss-meta-row {
+    display: flex; flex-wrap: wrap; gap: 6px 10px;
+    font-size: 12.5px; color: var(--body-color); opacity: .85;
+  }
+  #shell-{{ sid }} .ss-meta-row span { display: inline-flex; align-items: center; gap: 4px; }
+  #shell-{{ sid }} .ss-meta-row svg { width: 13px; height: 13px; opacity: .6; }
+
+  #shell-{{ sid }} .ss-seller-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 0; border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border);
+  }
+  #shell-{{ sid }} .ss-seller-avatar {
+    width: 28px; height: 28px; border-radius: 50%; background: #EDE9DE;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--heading-color); overflow: hidden; flex-shrink: 0;
+  }
+  #shell-{{ sid }} .ss-seller-name { font-size: 13px; font-weight: 600; color: var(--heading-color); }
+  #shell-{{ sid }} .ss-seller-verified {
+    display: inline-flex; margin-left: 3px; color: #2E6F5E;
+  }
+  #shell-{{ sid }} .ss-stars { margin-left: auto; display: flex; gap: 1px; }
+  #shell-{{ sid }} .ss-stars svg { width: 12px; height: 12px; fill: var(--gold); stroke: none; }
+
+  #shell-{{ sid }} .ss-price-row {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  }
+  #shell-{{ sid }} .ss-price { font-size: 24px; font-weight: 800; color: var(--gold); }
+  #shell-{{ sid }} .ss-price-old { font-size: 14px; color: #A9A69C; text-decoration: line-through; margin-left: 6px; font-weight: 500; }
+  #shell-{{ sid }} .ss-availability { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+  #shell-{{ sid }} .ss-availability.in-stock { background: #E9F4EE; color: #2E6F5E; }
+  #shell-{{ sid }} .ss-availability.out-of-stock { background: #F5EAEA; color: #A5432C; }
+
+  #shell-{{ sid }} .ss-cta {
+    display: block; text-align: center;
+    background: var(--heading-color);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14.5px;
+    padding: 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    margin-top: 4px;
+    transition: background var(--speed) var(--ease), transform var(--speed) var(--ease);
+  }
+  #shell-{{ sid }} .ss-cta:hover { background: var(--green); transform: translateY(-2px); }
+
+  #shell-{{ sid }} .ss-footer-stats {
+    display: flex; justify-content: space-between; font-size: 11.5px; color: var(--body-color); opacity: .65;
+  }
+
+  /* ---------- Load more / view all ---------- */
+  #shell-{{ sid }} .ss-loadmore-wrap { text-align: center; margin-top: 56px; }
+  #shell-{{ sid }} .ss-loadmore-btn {
+    background: var(--gold); color: #fff; border: none;
+    padding: 17px 44px; border-radius: 999px;
+    font-weight: 700; font-size: 15px; cursor: pointer;
+    transition: all var(--speed) var(--ease);
+  }
+  #shell-{{ sid }} .ss-loadmore-btn:hover { background: var(--green); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,.15); }
+  #shell-{{ sid }} .ss-loadmore-btn[hidden] { display: none; }
+
+  /* ---------- Empty state ---------- */
+  #shell-{{ sid }} .ss-empty {
+    text-align: center; padding: 80px 20px; display: none;
+  }
+  #shell-{{ sid }} .ss-empty.is-active { display: block; }
+  #shell-{{ sid }} .ss-empty svg { width: 96px; height: 96px; margin-bottom: 20px; opacity: .5; }
+  #shell-{{ sid }} .ss-empty h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--heading-color); margin: 0 0 20px; }
+  #shell-{{ sid }} .ss-empty a {
+    display: inline-block; background: var(--heading-color); color: #fff; text-decoration: none;
+    padding: 14px 30px; border-radius: 999px; font-weight: 700; font-size: 14px;
+  }
+
+  #shell-{{ sid }} .ss-grid[data-empty="true"] { display: none; }
+
+  #shell-{{ sid }}.ss-no-anim * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #shell-{{ sid }} * { animation: none !important; transition: none !important; }
+    #shell-{{ sid }} .ss-card { opacity: 1; transform: none; }
+  }
+</style>
+
+<section id="shell-{{ sid }}" class="ss-shell" aria-label="{{ section.settings.heading | escape }}">
+  <div class="ss-container">
+
+    <div class="ss-header">
+      <div class="ss-heading-block">
+        {%- if section.settings.heading_badge != blank -%}
+          <span class="ss-badge">{{ section.settings.heading_badge }}</span>
+        {%- endif -%}
+        <h2 class="ss-heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.description != blank -%}
+          <p class="ss-description">{{ section.settings.description }}</p>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.show_view_all_button -%}
+        <a href="{{ section.settings.view_all_button_link | default: '#' }}" class="ss-view-all">
+          {{ section.settings.view_all_button_label }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_filter_bar -%}
+      <div class="ss-filterbar" data-ss-filterbar>
+        <div class="ss-search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" data-ss-filter="search" placeholder="Search listings...">
+        </div>
+        <select data-ss-filter="sort">
+          <option value="default">Sort: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="newest">Newest Listings</option>
+          <option value="views">Most Viewed</option>
+        </select>
+        <div class="ss-price-range">
+          <input type="number" data-ss-filter="price-min" placeholder="Min $">
+          <span>–</span>
+          <input type="number" data-ss-filter="price-max" placeholder="Max $">
+        </div>
+        <select data-ss-filter="location">
+          <option value="">All Locations</option>
+        </select>
+        <select data-ss-filter="availability">
+          <option value="">Availability</option>
+          <option value="in-stock">In Stock</option>
+          <option value="out-of-stock">Sold Out</option>
+        </select>
+        <label class="ss-toggle">
+          <input type="checkbox" data-ss-filter="verified">
+          <span class="dot"></span> Verified Sellers
+        </label>
+        <label class="ss-toggle">
+          <input type="checkbox" data-ss-filter="newest">
+          <span class="dot"></span> Newest Listings
+        </label>
+        <button type="button" class="ss-reset" data-ss-reset>Reset Filters</button>
+      </div>
+    {%- endif -%}
+
+    <div class="ss-grid" data-ss-grid data-batch="{{ batch_size }}">
+      {%- comment -%} 1. Manual product blocks {%- endcomment -%}
+      {%- assign rendered_count = 0 -%}
+      {%- assign rendered_ids = '' -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product' and rendered_count < limit -%}
+          {%- assign p = block.settings.product -%}
+          {%- if p != blank -%}
+            {%- assign pid_str = p.id | append: ',' -%}
+            {%- unless rendered_ids contains pid_str -%}
+              {%- assign rendered_ids = rendered_ids | append: pid_str -%}
+              {%- assign rendered_count = rendered_count | plus: 1 -%}
+              {%- assign is_manual = true -%}
+              {%- comment -%} ===== CARD MARKUP (manual) ===== {%- endcomment -%}
+              {%- assign badge_verified = false -%}
+              {%- assign badge_featured = false -%}
+              {%- assign badge_new = false -%}
+              {%- assign badge_sold = false -%}
+              {%- assign badge_auction = false -%}
+              {%- assign badge_editors = false -%}
+              {%- assign badge_hotdeal = false -%}
+              {%- if p.tags contains 'verified' -%}{%- assign badge_verified = true -%}{%- endif -%}
+              {%- if p.tags contains 'featured' -%}{%- assign badge_featured = true -%}{%- endif -%}
+              {%- if p.tags contains 'new' -%}{%- assign badge_new = true -%}{%- endif -%}
+              {%- if p.tags contains 'sold' -%}{%- assign badge_sold = true -%}{%- endif -%}
+              {%- if p.tags contains 'auction' -%}{%- assign badge_auction = true -%}{%- endif -%}
+              {%- if p.tags contains 'editors-pick' -%}{%- assign badge_editors = true -%}{%- endif -%}
+              {%- if p.tags contains 'hot-deal' -%}{%- assign badge_hotdeal = true -%}{%- endif -%}
+              {%- assign breed = p.metafields.custom.breed | default: p.type | default: 'Livestock' -%}
+              {%- assign age = p.metafields.custom.age | default: '—' -%}
+              {%- assign gender = p.metafields.custom.gender | default: '—' -%}
+              {%- assign weight = p.metafields.custom.weight | default: '—' -%}
+              {%- assign location = p.metafields.custom.location | default: p.vendor | default: 'United States' -%}
+              {%- assign seller_name = p.metafields.custom.seller_name | default: p.vendor | default: 'Stock Shop Seller' -%}
+              {%- assign seller_rating = p.metafields.custom.seller_rating | default: 5 -%}
+              {%- assign views = p.metafields.custom.views | default: p.id | modulo: 900 | plus: 120 -%}
+              {%- assign favorites = p.metafields.custom.favorites | default: p.id | modulo: 80 | plus: 6 -%}
+              {%- assign availability_class = 'in-stock' -%}
+              {%- assign availability_label = 'Available' -%}
+              {%- unless p.available -%}
+                {%- assign availability_class = 'out-of-stock' -%}
+                {%- assign availability_label = 'Sold' -%}
+              {%- endunless -%}
+              <article class="ss-card product-card card-wrapper card" data-product-id="{{ p.id }}" data-variant-id="{{ p.selected_or_first_available_variant.id }}" data-manual="{{ is_manual }}" data-title="{{ p.title | escape }}" data-breed="{{ breed | escape }}" data-price="{{ p.price | divided_by: 100.0 }}" data-location="{{ location | escape }}" data-availability="{{ availability_class }}" data-verified="{{ badge_verified }}" data-is-new="{{ badge_new }}" data-views="{{ views }}" data-posted-ts="{{ p.created_at | date: '%s' }}">
+                <div class="ss-card-media">
+                  {%- if section.settings.show_badges -%}
+                    <div class="ss-badges">
+                      {%- if badge_verified -%}<span class="ss-badge-pill ss-badge-verified">Verified</span>{%- endif -%}
+                      {%- if badge_featured -%}<span class="ss-badge-pill ss-badge-featured">Featured</span>{%- endif -%}
+                      {%- if badge_new -%}<span class="ss-badge-pill ss-badge-new">New</span>{%- endif -%}
+                      {%- if badge_sold -%}<span class="ss-badge-pill ss-badge-sold">Sold</span>{%- endif -%}
+                      {%- if badge_auction -%}<span class="ss-badge-pill ss-badge-auction">Auction</span>{%- endif -%}
+                      {%- if badge_editors -%}<span class="ss-badge-pill ss-badge-editors-pick">Editor's Pick</span>{%- endif -%}
+                      {%- if badge_hotdeal -%}<span class="ss-badge-pill ss-badge-hot-deal">Hot Deal</span>{%- endif -%}
+                    </div>
+                  {%- endif -%}
+                  <div class="ss-quick-actions">
+                    {%- if section.settings.show_wishlist -%}
+                      <button type="button" class="ss-glass-btn ss-wishlist-btn wishlist-button add-to-wishlist wishlist-icon product-wishlist-button" data-ss-wishlist aria-label="Add to wishlist" data-product-id="{{ p.id }}" data-variant-id="{{ p.selected_or_first_available_variant.id }}" data-product-handle="{{ p.handle }}" data-product-title="{{ p.title | escape }}" data-product-price="{{ p.price }}" data-product-image="{{ p.featured_image | image_url: width: 600 }}" data-product-url="{{ shop.url }}{{ p.url }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+                      </button>
+                    {%- endif -%}
+                    {%- if section.settings.show_compare -%}
+                      <button type="button" class="ss-glass-btn" data-ss-compare data-product-id="{{ p.id }}" aria-label="Compare">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M8 3v18M16 3v18M4 8h8M12 16h8"/></svg>
+                      </button>
+                    {%- endif -%}
+                    {%- if section.settings.show_quick_view -%}
+                      <button type="button" class="ss-glass-btn" data-ss-quickview data-url="{{ p.url }}" aria-label="Quick view">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                      </button>
+                    {%- endif -%}
+                    {%- if section.settings.show_share -%}
+                      <button type="button" class="ss-glass-btn" data-ss-share data-url="{{ shop.url }}{{ p.url }}" aria-label="Share">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+                      </button>
+                    {%- endif -%}
+                  </div>
+                  <a href="{{ p.url }}">
+                    {%- if p.featured_image != blank -%}
+                      <img src="{{ p.featured_image | image_url: width: 600 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" loading="lazy" width="600" height="450">
+                    {%- else -%}
+                      <img src="{{ 'no-image.svg' | asset_url }}" alt="{{ p.title | escape }}" loading="lazy" width="600" height="450">
+                    {%- endif -%}
+                  </a>
+                  {%- if section.settings.show_location or section.settings.show_breed -%}
+                    <div class="ss-media-overlay">
+                      {%- if section.settings.show_breed -%}<span>{{ breed }}</span>{%- endif -%}
+                      {%- if section.settings.show_location -%}<span>{{ location }}</span>{%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+                <div class="ss-card-body">
+                  <a href="{{ p.url }}" class="ss-card-title">{{ p.title }}</a>
+                  {%- if section.settings.show_breed -%}
+                    <div class="ss-meta-row">
+                      <span>{{ breed }}</span><span>·</span><span>{{ age }}</span><span>·</span><span>{{ gender }}</span><span>·</span><span>{{ weight }}</span>
+                    </div>
+                  {%- endif -%}
+                  {%- if section.settings.show_seller -%}
+                    <div class="ss-seller-row">
+                      <span class="ss-seller-avatar">{{ seller_name | slice: 0, 1 }}</span>
+                      <span class="ss-seller-name">{{ seller_name }}{%- if badge_verified -%}<span class="ss-seller-verified" title="Verified Seller"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.2 3.2-.5 1 3.1 3 1.4-1 3.2 1 3.2-3 1.4-1 3.1-3.2-.5L12 22l-2.4-2.2-3.2.5-1-3.1-3-1.4 1-3.2-1-3.2 3-1.4 1-3.1 3.2.5z"/></svg></span>{%- endif -%}</span>
+                      {%- if section.settings.show_rating -%}
+                        <span class="ss-stars" aria-label="{{ seller_rating }} star rating">
+                          {%- for i in (1..5) -%}<svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.8 5.8 21l1.4-6.9L2 9.3l7-.8z"/></svg>{%- endfor -%}
+                        </span>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                  <div class="ss-price-row">
+                    <div>
+                      <span class="ss-price">{{ p.price | money }}</span>
+                      {%- if p.compare_at_price > p.price -%}<span class="ss-price-old">{{ p.compare_at_price | money }}</span>{%- endif -%}
+                    </div>
+                    <span class="ss-availability {{ availability_class }}">{{ availability_label }}</span>
+                  </div>
+                  <a href="{{ p.url }}" class="ss-cta">View Listing</a>
+                  {%- if section.settings.show_posted_time or section.settings.show_views or section.settings.show_favorites -%}
+                    <div class="ss-footer-stats">
+                      {%- if section.settings.show_posted_time -%}<span>Posted {{ p.created_at | date: '%b %d' }}</span>{%- endif -%}
+                      {%- if section.settings.show_views -%}<span data-count-to="{{ views }}">0</span>{%- endif -%}
+                      {%- if section.settings.show_favorites -%}<span data-count-to="{{ favorites }}">0</span>{%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </article>
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} 2. Collection or Random pool fill {%- endcomment -%}
+      {%- if mode == 'collection' and section.settings.collection != blank -%}
+        {%- assign pool = collections[section.settings.collection].products -%}
+      {%- else -%}
+        {%- assign pool = collections.all.products -%}
+      {%- endif -%}
+
+      {%- for p in pool -%}
+        {%- if rendered_count >= limit -%}
+          {%- break -%}
+        {%- endif -%}
+        {%- assign pid_str = p.id | append: ',' -%}
+        {%- unless rendered_ids contains pid_str -%}
+          {%- assign rendered_ids = rendered_ids | append: pid_str -%}
+          {%- assign rendered_count = rendered_count | plus: 1 -%}
+          {%- assign is_manual = false -%}
+          {%- comment -%} ===== CARD MARKUP (pool) ===== {%- endcomment -%}
+          {%- assign badge_verified = false -%}
+          {%- assign badge_featured = false -%}
+          {%- assign badge_new = false -%}
+          {%- assign badge_sold = false -%}
+          {%- assign badge_auction = false -%}
+          {%- assign badge_editors = false -%}
+          {%- assign badge_hotdeal = false -%}
+          {%- if p.tags contains 'verified' -%}{%- assign badge_verified = true -%}{%- endif -%}
+          {%- if p.tags contains 'featured' -%}{%- assign badge_featured = true -%}{%- endif -%}
+          {%- if p.tags contains 'new' -%}{%- assign badge_new = true -%}{%- endif -%}
+          {%- if p.tags contains 'sold' -%}{%- assign badge_sold = true -%}{%- endif -%}
+          {%- if p.tags contains 'auction' -%}{%- assign badge_auction = true -%}{%- endif -%}
+          {%- if p.tags contains 'editors-pick' -%}{%- assign badge_editors = true -%}{%- endif -%}
+          {%- if p.tags contains 'hot-deal' -%}{%- assign badge_hotdeal = true -%}{%- endif -%}
+          {%- assign breed = p.metafields.custom.breed | default: p.type | default: 'Livestock' -%}
+          {%- assign age = p.metafields.custom.age | default: '—' -%}
+          {%- assign gender = p.metafields.custom.gender | default: '—' -%}
+          {%- assign weight = p.metafields.custom.weight | default: '—' -%}
+          {%- assign location = p.metafields.custom.location | default: p.vendor | default: 'United States' -%}
+          {%- assign seller_name = p.metafields.custom.seller_name | default: p.vendor | default: 'Stock Shop Seller' -%}
+          {%- assign seller_rating = p.metafields.custom.seller_rating | default: 5 -%}
+          {%- assign views = p.metafields.custom.views | default: p.id | modulo: 900 | plus: 120 -%}
+          {%- assign favorites = p.metafields.custom.favorites | default: p.id | modulo: 80 | plus: 6 -%}
+          {%- assign availability_class = 'in-stock' -%}
+          {%- assign availability_label = 'Available' -%}
+          {%- unless p.available -%}
+            {%- assign availability_class = 'out-of-stock' -%}
+            {%- assign availability_label = 'Sold' -%}
+          {%- endunless -%}
+          <article class="ss-card product-card card-wrapper card" data-product-id="{{ p.id }}" data-variant-id="{{ p.selected_or_first_available_variant.id }}" data-manual="{{ is_manual }}" data-title="{{ p.title | escape }}" data-breed="{{ breed | escape }}" data-price="{{ p.price | divided_by: 100.0 }}" data-location="{{ location | escape }}" data-availability="{{ availability_class }}" data-verified="{{ badge_verified }}" data-is-new="{{ badge_new }}" data-views="{{ views }}" data-posted-ts="{{ p.created_at | date: '%s' }}">
+            <div class="ss-card-media">
+              {%- if section.settings.show_badges -%}
+                <div class="ss-badges">
+                  {%- if badge_verified -%}<span class="ss-badge-pill ss-badge-verified">Verified</span>{%- endif -%}
+                  {%- if badge_featured -%}<span class="ss-badge-pill ss-badge-featured">Featured</span>{%- endif -%}
+                  {%- if badge_new -%}<span class="ss-badge-pill ss-badge-new">New</span>{%- endif -%}
+                  {%- if badge_sold -%}<span class="ss-badge-pill ss-badge-sold">Sold</span>{%- endif -%}
+                  {%- if badge_auction -%}<span class="ss-badge-pill ss-badge-auction">Auction</span>{%- endif -%}
+                  {%- if badge_editors -%}<span class="ss-badge-pill ss-badge-editors-pick">Editor's Pick</span>{%- endif -%}
+                  {%- if badge_hotdeal -%}<span class="ss-badge-pill ss-badge-hot-deal">Hot Deal</span>{%- endif -%}
+                </div>
+              {%- endif -%}
+              <div class="ss-quick-actions">
+                {%- if section.settings.show_wishlist -%}
+                  <button type="button" class="ss-glass-btn ss-wishlist-btn wishlist-button add-to-wishlist wishlist-icon product-wishlist-button" data-ss-wishlist aria-label="Add to wishlist" data-product-id="{{ p.id }}" data-variant-id="{{ p.selected_or_first_available_variant.id }}" data-product-handle="{{ p.handle }}" data-product-title="{{ p.title | escape }}" data-product-price="{{ p.price }}" data-product-image="{{ p.featured_image | image_url: width: 600 }}" data-product-url="{{ shop.url }}{{ p.url }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0112 5a5.5 5.5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+                  </button>
+                {%- endif -%}
+                {%- if section.settings.show_compare -%}
+                  <button type="button" class="ss-glass-btn" data-ss-compare data-product-id="{{ p.id }}" aria-label="Compare">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M8 3v18M16 3v18M4 8h8M12 16h8"/></svg>
+                  </button>
+                {%- endif -%}
+                {%- if section.settings.show_quick_view -%}
+                  <button type="button" class="ss-glass-btn" data-ss-quickview data-url="{{ p.url }}" aria-label="Quick view">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                {%- endif -%}
+                {%- if section.settings.show_share -%}
+                  <button type="button" class="ss-glass-btn" data-ss-share data-url="{{ shop.url }}{{ p.url }}" aria-label="Share">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+                  </button>
+                {%- endif -%}
+              </div>
+              <a href="{{ p.url }}">
+                {%- if p.featured_image != blank -%}
+                  <img src="{{ p.featured_image | image_url: width: 600 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" loading="lazy" width="600" height="450">
+                {%- else -%}
+                  <img src="{{ 'no-image.svg' | asset_url }}" alt="{{ p.title | escape }}" loading="lazy" width="600" height="450">
+                {%- endif -%}
+              </a>
+              {%- if section.settings.show_location or section.settings.show_breed -%}
+                <div class="ss-media-overlay">
+                  {%- if section.settings.show_breed -%}<span>{{ breed }}</span>{%- endif -%}
+                  {%- if section.settings.show_location -%}<span>{{ location }}</span>{%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="ss-card-body">
+              <a href="{{ p.url }}" class="ss-card-title">{{ p.title }}</a>
+              {%- if section.settings.show_breed -%}
+                <div class="ss-meta-row">
+                  <span>{{ breed }}</span><span>·</span><span>{{ age }}</span><span>·</span><span>{{ gender }}</span><span>·</span><span>{{ weight }}</span>
+                </div>
+              {%- endif -%}
+              {%- if section.settings.show_seller -%}
+                <div class="ss-seller-row">
+                  <span class="ss-seller-avatar">{{ seller_name | slice: 0, 1 }}</span>
+                  <span class="ss-seller-name">{{ seller_name }}{%- if badge_verified -%}<span class="ss-seller-verified" title="Verified Seller"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.2 3.2-.5 1 3.1 3 1.4-1 3.2 1 3.2-3 1.4-1 3.1-3.2-.5L12 22l-2.4-2.2-3.2.5-1-3.1-3-1.4 1-3.2-1-3.2 3-1.4 1-3.1 3.2.5z"/></svg></span>{%- endif -%}</span>
+                  {%- if section.settings.show_rating -%}
+                    <span class="ss-stars" aria-label="{{ seller_rating }} star rating">
+                      {%- for i in (1..5) -%}<svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.8 5.8 21l1.4-6.9L2 9.3l7-.8z"/></svg>{%- endfor -%}
+                    </span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div class="ss-price-row">
+                <div>
+                  <span class="ss-price">{{ p.price | money }}</span>
+                  {%- if p.compare_at_price > p.price -%}<span class="ss-price-old">{{ p.compare_at_price | money }}</span>{%- endif -%}
+                </div>
+                <span class="ss-availability {{ availability_class }}">{{ availability_label }}</span>
+              </div>
+              <a href="{{ p.url }}" class="ss-cta">View Listing</a>
+              {%- if section.settings.show_posted_time or section.settings.show_views or section.settings.show_favorites -%}
+                <div class="ss-footer-stats">
+                  {%- if section.settings.show_posted_time -%}<span>Posted {{ p.created_at | date: '%b %d' }}</span>{%- endif -%}
+                  {%- if section.settings.show_views -%}<span data-count-to="{{ views }}">0</span>{%- endif -%}
+                  {%- if section.settings.show_favorites -%}<span data-count-to="{{ favorites }}">0</span>{%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="ss-empty" data-ss-empty>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 12h18"/></svg>
+      <h3>No Listings Found</h3>
+      <a href="{{ section.settings.view_all_button_link | default: '/collections/all' }}">Browse Marketplace</a>
+    </div>
+
+    {%- if rendered_count > 0 -%}
+      <div class="ss-loadmore-wrap">
+        {%- if section.settings.enable_load_more -%}
+          <button type="button" class="ss-loadmore-btn" data-ss-loadmore>Load More Listings</button>
+        {%- elsif section.settings.show_view_all_button -%}
+          <a href="{{ section.settings.view_all_button_link | default: '#' }}" class="ss-loadmore-btn" style="display:inline-block;text-decoration:none;">View All Listings</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<script>
+(function() {
+  var root = document.getElementById('shell-{{ sid }}');
+  if (!root) return;
+
+  var grid = root.querySelector('[data-ss-grid]');
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.ss-card'));
+  var emptyState = root.querySelector('[data-ss-empty]');
+  var loadMoreBtn = root.querySelector('[data-ss-loadmore]');
+  var batchSize = parseInt(grid.getAttribute('data-batch'), 10) || 8;
+  var visibleCount = batchSize;
+  var randomMode = {{ mode | json }} === 'random';
+
+  /* ---------- Randomize order for marketplace mode ---------- */
+  if (randomMode && cards.length) {
+    var manualCards = cards.filter(function(c){ return c.getAttribute('data-manual') === 'true'; });
+    var poolCards = cards.filter(function(c){ return c.getAttribute('data-manual') !== 'true'; });
+    for (var i = poolCards.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = poolCards[i]; poolCards[i] = poolCards[j]; poolCards[j] = tmp;
+    }
+    cards = manualCards.concat(poolCards);
+    cards.forEach(function(c){ grid.appendChild(c); });
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  var animationsEnabled = {{ section.settings.enable_animations | json }};
+  if (!animationsEnabled) {
+    cards.forEach(function(c){ c.classList.add('is-visible'); });
+    root.classList.add('ss-no-anim');
+  } else if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry, i) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = (Array.prototype.indexOf.call(cards, el) % batchSize) * 60;
+          setTimeout(function(){ el.classList.add('is-visible'); }, delay);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    cards.forEach(function(c){ io.observe(c); });
+  } else {
+    cards.forEach(function(c){ c.classList.add('is-visible'); });
+  }
+
+  /* ---------- Lazy image loading fallback ---------- */
+  root.querySelectorAll('img[loading="lazy"]').forEach(function(img) {
+    if (img.complete) return;
+  });
+
+  /* ---------- Load more (paginate rendered cards, no reload) ---------- */
+  function applyPagination() {
+    var visible = cards.filter(function(c){ return !c.classList.contains('is-hidden-filtered'); });
+    visible.forEach(function(c, i) {
+      c.style.display = i < visibleCount ? '' : 'none';
+    });
+    if (loadMoreBtn) {
+      loadMoreBtn.hidden = visibleCount >= visible.length;
+    }
+  }
+  applyPagination();
+
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', function() {
+      visibleCount += batchSize;
+      applyPagination();
+    });
+  }
+
+  /* ---------- Wishlist ----------
+     Placeholder UI only (visual toggle + bounce). Each button carries
+     data-product-id / data-variant-id / data-product-handle / data-product-title /
+     data-product-price / data-product-image / data-product-url so a wishlist
+     app (Swym, Wishlist King, Wishlist Plus, etc.) can either:
+       a) target [data-ss-wishlist] directly and read the data-* attributes, or
+       b) listen for the "ss:wishlist-toggle" custom event dispatched below.
+     Replace this block with the app's own button markup/snippet if it needs
+     a specific structure to auto-detect. */
+  root.querySelectorAll('[data-ss-wishlist]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      btn.classList.toggle('is-active');
+      btn.classList.add('is-bouncing');
+      setTimeout(function(){ btn.classList.remove('is-bouncing'); }, 500);
+      btn.dispatchEvent(new CustomEvent('ss:wishlist-toggle', {
+        bubbles: true,
+        detail: {
+          added: btn.classList.contains('is-active'),
+          productId: btn.getAttribute('data-product-id'),
+          variantId: btn.getAttribute('data-variant-id'),
+          handle: btn.getAttribute('data-product-handle'),
+          title: btn.getAttribute('data-product-title'),
+          price: btn.getAttribute('data-product-price'),
+          image: btn.getAttribute('data-product-image'),
+          url: btn.getAttribute('data-product-url')
+        }
+      }));
+    });
+  });
+
+  /* ---------- Compare ---------- */
+  var compareList = [];
+  root.querySelectorAll('[data-ss-compare]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var id = btn.getAttribute('data-product-id');
+      btn.classList.toggle('is-active');
+      if (btn.classList.contains('is-active')) {
+        if (compareList.indexOf(id) === -1) compareList.push(id);
+      } else {
+        compareList = compareList.filter(function(x){ return x !== id; });
+      }
+    });
+  });
+
+  /* ---------- Share ---------- */
+  root.querySelectorAll('[data-ss-share]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var url = btn.getAttribute('data-url');
+      if (navigator.share) {
+        navigator.share({ url: url, title: document.title }).catch(function(){});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url);
+        btn.setAttribute('aria-label', 'Link copied');
+      }
+    });
+  });
+
+  /* ---------- Quick view ---------- */
+  root.querySelectorAll('[data-ss-quickview]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var url = btn.getAttribute('data-url');
+      window.location.href = url;
+    });
+  });
+
+  /* ---------- Filtering & sorting ---------- */
+  var filterbar = root.querySelector('[data-ss-filterbar]');
+  function getFilterValues() {
+    if (!filterbar) return null;
+    return {
+      search: (filterbar.querySelector('[data-ss-filter="search"]') || {}).value || '',
+      sort: (filterbar.querySelector('[data-ss-filter="sort"]') || {}).value || 'default',
+      priceMin: parseFloat((filterbar.querySelector('[data-ss-filter="price-min"]') || {}).value) || null,
+      priceMax: parseFloat((filterbar.querySelector('[data-ss-filter="price-max"]') || {}).value) || null,
+      location: (filterbar.querySelector('[data-ss-filter="location"]') || {}).value || '',
+      availability: (filterbar.querySelector('[data-ss-filter="availability"]') || {}).value || '',
+      verified: (filterbar.querySelector('[data-ss-filter="verified"]') || {}).checked || false,
+      newest: (filterbar.querySelector('[data-ss-filter="newest"]') || {}).checked || false
+    };
+  }
+
+  function populateLocationOptions() {
+    var select = filterbar && filterbar.querySelector('[data-ss-filter="location"]');
+    if (!select) return;
+    var locations = [];
+    cards.forEach(function(c) {
+      var loc = c.getAttribute('data-location');
+      if (loc && locations.indexOf(loc) === -1) locations.push(loc);
+    });
+    locations.sort().forEach(function(loc) {
+      var opt = document.createElement('option');
+      opt.value = loc; opt.textContent = loc;
+      select.appendChild(opt);
+    });
+  }
+  populateLocationOptions();
+
+  function runFilters() {
+    var f = getFilterValues();
+    if (!f) return;
+    var anyVisible = false;
+
+    cards.forEach(function(c) {
+      var title = (c.getAttribute('data-title') || '').toLowerCase();
+      var breed = (c.getAttribute('data-breed') || '').toLowerCase();
+      var price = parseFloat(c.getAttribute('data-price')) || 0;
+      var loc = c.getAttribute('data-location') || '';
+      var available = c.getAttribute('data-availability') === 'in-stock';
+      var verified = c.getAttribute('data-verified') === 'true';
+      var isNew = c.getAttribute('data-is-new') === 'true';
+
+      var match = true;
+      if (f.search && title.indexOf(f.search.toLowerCase()) === -1 && breed.indexOf(f.search.toLowerCase()) === -1) match = false;
+      if (f.priceMin !== null && price < f.priceMin) match = false;
+      if (f.priceMax !== null && price > f.priceMax) match = false;
+      if (f.location && loc !== f.location) match = false;
+      if (f.availability === 'in-stock' && !available) match = false;
+      if (f.availability === 'out-of-stock' && available) match = false;
+      if (f.verified && !verified) match = false;
+      if (f.newest && !isNew) match = false;
+
+      c.classList.toggle('is-hidden-filtered', !match);
+      if (match) anyVisible = true;
+    });
+
+    /* Sorting */
+    var visibleCards = cards.filter(function(c){ return !c.classList.contains('is-hidden-filtered'); });
+    visibleCards.sort(function(a, b) {
+      if (f.sort === 'price-asc') return (parseFloat(a.getAttribute('data-price'))||0) - (parseFloat(b.getAttribute('data-price'))||0);
+      if (f.sort === 'price-desc') return (parseFloat(b.getAttribute('data-price'))||0) - (parseFloat(a.getAttribute('data-price'))||0);
+      if (f.sort === 'newest') return (parseInt(b.getAttribute('data-posted-ts'))||0) - (parseInt(a.getAttribute('data-posted-ts'))||0);
+      if (f.sort === 'views') return (parseInt(b.getAttribute('data-views'))||0) - (parseInt(a.getAttribute('data-views'))||0);
+      return 0;
+    });
+    visibleCards.forEach(function(c){ grid.appendChild(c); });
+
+    visibleCount = batchSize;
+    applyPagination();
+
+    grid.setAttribute('data-empty', anyVisible ? 'false' : 'true');
+    emptyState.classList.toggle('is-active', !anyVisible);
+  }
+
+  if (filterbar) {
+    filterbar.addEventListener('input', debounce(runFilters, 200));
+    filterbar.addEventListener('change', runFilters);
+    var resetBtn = filterbar.querySelector('[data-ss-reset]');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function() {
+        filterbar.querySelectorAll('input[type="text"], input[type="number"]').forEach(function(i){ i.value = ''; });
+        filterbar.querySelectorAll('select').forEach(function(s){ s.selectedIndex = 0; });
+        filterbar.querySelectorAll('input[type="checkbox"]').forEach(function(c){ c.checked = false; });
+        runFilters();
+      });
+    }
+  }
+
+  function debounce(fn, wait) {
+    var t;
+    return function() {
+      clearTimeout(t);
+      var args = arguments;
+      t = setTimeout(function(){ fn.apply(null, args); }, wait);
+    };
+  }
+
+  /* ---------- Empty state on initial load ---------- */
+  if (cards.length === 0) {
+    emptyState.classList.add('is-active');
+  }
+
+  /* ---------- Animated stat counters ---------- */
+  if ('IntersectionObserver' in window) {
+    var statIo = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
+        var start = 0;
+        var duration = 700;
+        var startTime = null;
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          var progress = Math.min((ts - startTime) / duration, 1);
+          el.textContent = Math.floor(progress * target).toLocaleString();
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = target.toLocaleString();
+        }
+        requestAnimationFrame(step);
+        statIo.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    root.querySelectorAll('[data-count-to]').forEach(function(el){ statIo.observe(el); });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Listings",
+  "tag": "section",
+  "class": "section-listings",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "heading_badge", "label": "Badge text", "default": "Latest Marketplace Listings" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Discover Premium Livestock Near You" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Browse verified livestock and farm equipment listed by trusted sellers across the country." },
+    { "type": "checkbox", "id": "show_view_all_button", "label": "Show View All button", "default": true },
+    { "type": "text", "id": "view_all_button_label", "label": "View All button label", "default": "View All Listings" },
+    { "type": "url", "id": "view_all_button_link", "label": "View All button link" },
+
+    { "type": "header", "content": "Product Source" },
+    {
+      "type": "select",
+      "id": "product_source_mode",
+      "label": "Source mode",
+      "options": [
+        { "value": "collection", "label": "Selected Collection" },
+        { "value": "random", "label": "Random Marketplace Products" }
+      ],
+      "default": "random"
+    },
+    { "type": "collection", "id": "collection", "label": "Collection (used when mode = Selected Collection)" },
+    {
+      "type": "select",
+      "id": "product_limit",
+      "label": "Number of products",
+      "options": [
+        { "value": "4", "label": "4" },
+        { "value": "8", "label": "8" },
+        { "value": "12", "label": "12" },
+        { "value": "16", "label": "16" },
+        { "value": "20", "label": "20" },
+        { "value": "24", "label": "24" },
+        { "value": "25", "label": "25" }
+      ],
+      "default": "12"
+    },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "columns_desktop", "label": "Desktop columns", "min": 3, "max": 5, "step": 1, "default": 5 },
+    { "type": "range", "id": "columns_tablet", "label": "Tablet columns", "min": 2, "max": 4, "step": 1, "default": 3 },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius (px)", "min": 0, "max": 32, "step": 2, "default": 24 },
+
+    { "type": "header", "content": "Load More" },
+    { "type": "checkbox", "id": "enable_load_more", "label": "Enable Load More button", "default": true },
+    { "type": "range", "id": "load_more_batch_size", "label": "Products per batch", "min": 4, "max": 24, "step": 4, "default": 8 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_background", "label": "Section background", "default": "#F8F7F3" },
+    { "type": "color", "id": "color_accent_gold", "label": "Gold accent", "default": "#C9A24B" },
+    { "type": "color", "id": "color_cta_hover_green", "label": "CTA hover (dark green)", "default": "#1F4B3F" },
+    { "type": "color", "id": "color_card_bg", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "color_card_border", "label": "Card border", "default": "#ECECEC" },
+    { "type": "color", "id": "color_badge_bg", "label": "Filter badge background", "default": "#FFFFFF" },
+    { "type": "color", "id": "color_badge_text", "label": "Filter badge text", "default": "#1A1A1A" },
+    { "type": "color", "id": "color_text_heading", "label": "Heading / title text", "default": "#1A1A1A" },
+    { "type": "color", "id": "color_text_body", "label": "Body text", "default": "#4A4A46" },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "heading_font_size", "label": "Heading size (px)", "min": 32, "max": 72, "step": 2, "default": 58 },
+    { "type": "range", "id": "body_font_size", "label": "Body text size (px)", "min": 14, "max": 20, "step": 1, "default": 16 },
+
+    { "type": "header", "content": "Display Toggles" },
+    { "type": "checkbox", "id": "show_filter_bar", "label": "Show filter bar", "default": true },
+    { "type": "checkbox", "id": "show_wishlist", "label": "Show wishlist button", "default": true },
+    { "type": "checkbox", "id": "show_compare", "label": "Show compare button", "default": true },
+    { "type": "checkbox", "id": "show_quick_view", "label": "Show quick view button", "default": true },
+    { "type": "checkbox", "id": "show_share", "label": "Show share button", "default": true },
+    { "type": "checkbox", "id": "show_seller", "label": "Show seller info", "default": true },
+    { "type": "checkbox", "id": "show_location", "label": "Show location", "default": true },
+    { "type": "checkbox", "id": "show_breed", "label": "Show breed/age/gender/weight", "default": true },
+    { "type": "checkbox", "id": "show_rating", "label": "Show seller rating", "default": true },
+    { "type": "checkbox", "id": "show_posted_time", "label": "Show posted time", "default": true },
+    { "type": "checkbox", "id": "show_views", "label": "Show views count", "default": true },
+    { "type": "checkbox", "id": "show_favorites", "label": "Show favorites count", "default": true },
+    { "type": "checkbox", "id": "show_badges", "label": "Show status badges", "default": true },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable scroll & hover animations", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Manual Listing",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" }
+      ]
+    }
+  ],
+  "max_blocks": 25,
+  "presets": [
+    {
+      "name": "Listings",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

@@ -37,7 +37,7 @@
         "trust_badge_qnaH7R"
       ],
       "custom_css": [
-        "path{display: none;}"
+        "path {display: none;}"
       ],
       "name": "Premium Marketplace Hero",
       "settings": {
@@ -195,6 +195,70 @@
         "text_color": "#1a1a1a",
         "primary_color": "#c9a24b",
         "secondary_color": "#8c7022"
+      }
+    },
+    "listings_LWEc7C": {
+      "type": "listings",
+      "blocks": {
+        "product_VERa8Q": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_hfPWYb": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_VERa8Q",
+        "product_hfPWYb"
+      ],
+      "name": "Listings",
+      "settings": {
+        "heading_badge": "Latest Marketplace Listings",
+        "heading": "Discover Premium Livestock Near You",
+        "description": "Browse verified livestock and farm equipment listed by trusted sellers across the country.",
+        "show_view_all_button": true,
+        "view_all_button_label": "View All Listings",
+        "view_all_button_link": "",
+        "product_source_mode": "random",
+        "collection": "",
+        "product_limit": "12",
+        "columns_desktop": 5,
+        "columns_tablet": 3,
+        "columns_mobile": "2",
+        "card_radius": 24,
+        "enable_load_more": true,
+        "load_more_batch_size": 8,
+        "color_background": "#f8f7f3",
+        "color_accent_gold": "#c9a24b",
+        "color_cta_hover_green": "#1f4b3f",
+        "color_card_bg": "#ffffff",
+        "color_card_border": "#ececec",
+        "color_badge_bg": "#ffffff",
+        "color_badge_text": "#1a1a1a",
+        "color_text_heading": "#1a1a1a",
+        "color_text_body": "#4a4a46",
+        "heading_font_size": 58,
+        "body_font_size": 16,
+        "show_filter_bar": true,
+        "show_wishlist": true,
+        "show_compare": true,
+        "show_quick_view": true,
+        "show_share": true,
+        "show_seller": true,
+        "show_location": true,
+        "show_breed": true,
+        "show_rating": true,
+        "show_posted_time": true,
+        "show_views": true,
+        "show_favorites": true,
+        "show_badges": true,
+        "enable_animations": true
       }
     },
     "product_list_fa6P9H": {
@@ -375,6 +439,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "Featured collection",
       "settings": {
         "collection": "all",
@@ -395,11 +460,395 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "feature_seller_qykNm8": {
+      "type": "feature-seller",
+      "blocks": {
+        "seller_xbPAAH": {
+          "type": "seller",
+          "settings": {
+            "cover_image": "shopify://shop_images/genrate-a-image-of-a-farm.png",
+            "avatar": "shopify://shop_images/genrate-a-avatar-of-a-farm.png",
+            "seller_name": "Oakridge Cattle Co.",
+            "owner_name": "Owned by Thomas Wright",
+            "is_verified": true,
+            "location": "Dallas, TX",
+            "rating": "4.9",
+            "member_since": "2018",
+            "response_rate": "98%",
+            "sales": "3,400+",
+            "followers": "8,500+",
+            "seller_link": "",
+            "collection": "demo-commection"
+          }
+        },
+        "seller_NtfHYw": {
+          "type": "seller",
+          "settings": {
+            "seller_name": "Sunrise Poultry",
+            "owner_name": "Owned by Thomas Wright",
+            "is_verified": true,
+            "location": "Denver, CO",
+            "rating": "4.9",
+            "member_since": "2018",
+            "response_rate": "98%",
+            "sales": "1,200+",
+            "followers": "8,500+",
+            "seller_link": "",
+            "collection": ""
+          }
+        },
+        "seller_P6WQ8p": {
+          "type": "seller",
+          "settings": {
+            "seller_name": "Highland Sheep Farm",
+            "owner_name": "Owned by Thomas Wright",
+            "is_verified": true,
+            "location": "Portland, OR",
+            "rating": "4.9",
+            "member_since": "2018",
+            "response_rate": "98%",
+            "sales": "850+",
+            "followers": "8,500+",
+            "seller_link": "",
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "seller_xbPAAH",
+        "seller_NtfHYw",
+        "seller_P6WQ8p"
+      ],
+      "name": "Premium Featured Sellers",
+      "settings": {
+        "container_width": 1600,
+        "padding_top": 140,
+        "padding_bottom": 140,
+        "color_bg": "#F8F7F3",
+        "color_heading": "#111827",
+        "color_text": "#4B5563",
+        "color_gold": "#D4AF37",
+        "color_green": "#1A3626",
+        "badge_text": "Featured Sellers",
+        "heading": "Meet Our Trusted Livestock Sellers",
+        "description": "Browse verified farms and discover premium livestock directly from trusted sellers across the marketplace.",
+        "btn_text": "View All Sellers",
+        "btn_link": "",
+        "activity_1": "125 Active Sellers",
+        "activity_2": "2,450 Listings",
+        "activity_3": "48 New Listings Today"
+      }
+    },
+    "why_choose_6imDnn": {
+      "type": "why-choose",
+      "blocks": {
+        "feature_card_X7KU6c": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "shield",
+            "title": "Verified Sellers",
+            "description": "Every seller goes through verification before listing livestock.",
+            "stat_number": "6000",
+            "stat_suffix": "+",
+            "stat_label": "Verified Sellers"
+          }
+        },
+        "feature_card_7BR8Yh": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "lock",
+            "title": "Secure Transactions",
+            "description": "Buy and sell with confidence using trusted payment methods.",
+            "stat_number": "98",
+            "stat_suffix": "%",
+            "stat_label": "Successful Transactions"
+          }
+        },
+        "feature_card_dw4zKj": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "map",
+            "title": "Nationwide Marketplace",
+            "description": "Find livestock from farms across the country.",
+            "stat_number": "50",
+            "stat_suffix": "",
+            "stat_label": "States Covered"
+          }
+        },
+        "feature_card_9nranA": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "headset",
+            "title": "Fast Customer Support",
+            "description": "Dedicated support team available whenever you need help.",
+            "stat_number": "24",
+            "stat_suffix": "/7",
+            "stat_label": "Support"
+          }
+        },
+        "feature_card_VczxUW": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "award",
+            "title": "Premium Listings",
+            "description": "High-quality livestock listings with complete information.",
+            "stat_number": "15000",
+            "stat_suffix": "+",
+            "stat_label": "Active Listings"
+          }
+        },
+        "feature_card_jGDGqf": {
+          "type": "feature_card",
+          "settings": {
+            "icon": "users",
+            "title": "Trusted Community",
+            "description": "Thousands of farmers and buyers trust Stock Shop every day.",
+            "stat_number": "4.9",
+            "stat_suffix": "★",
+            "stat_label": "Average Rating"
+          }
+        },
+        "timeline_step_Cx6anK": {
+          "type": "timeline_step",
+          "settings": {
+            "title": "Choose Listing"
+          }
+        },
+        "timeline_step_Ma4xDh": {
+          "type": "timeline_step",
+          "settings": {
+            "title": "Contact Seller"
+          }
+        },
+        "timeline_step_wGhD7y": {
+          "type": "timeline_step",
+          "settings": {
+            "title": "Secure Deal"
+          }
+        },
+        "timeline_step_Gp7PGK": {
+          "type": "timeline_step",
+          "settings": {
+            "title": "Receive Livestock"
+          }
+        },
+        "statistic_tYKiWy": {
+          "type": "statistic",
+          "settings": {
+            "number": "15",
+            "suffix": "K+",
+            "label": "Active Listings"
+          }
+        },
+        "statistic_eTCbTR": {
+          "type": "statistic",
+          "settings": {
+            "number": "6",
+            "suffix": "K+",
+            "label": "Verified Sellers"
+          }
+        },
+        "statistic_RMFar3": {
+          "type": "statistic",
+          "settings": {
+            "number": "98",
+            "suffix": "%",
+            "label": "Successful Deals"
+          }
+        },
+        "statistic_XRbTUG": {
+          "type": "statistic",
+          "settings": {
+            "number": "4.9",
+            "suffix": "★",
+            "label": "Customer Rating"
+          }
+        }
+      },
+      "block_order": [
+        "feature_card_X7KU6c",
+        "feature_card_7BR8Yh",
+        "feature_card_dw4zKj",
+        "feature_card_9nranA",
+        "feature_card_VczxUW",
+        "feature_card_jGDGqf",
+        "timeline_step_Cx6anK",
+        "timeline_step_Ma4xDh",
+        "timeline_step_wGhD7y",
+        "timeline_step_Gp7PGK",
+        "statistic_tYKiWy",
+        "statistic_eTCbTR",
+        "statistic_RMFar3",
+        "statistic_XRbTUG"
+      ],
+      "name": "Premium Why Choose",
+      "settings": {
+        "container_width": 1600,
+        "padding_top": 140,
+        "padding_bottom": 140,
+        "color_bg": "#f8f7f3",
+        "color_heading": "#1a3626",
+        "color_text": "#4a4a4a",
+        "color_gold": "#d4af37",
+        "color_green": "#12261b",
+        "badge_text": "Why Choose Stock Shop",
+        "heading": "Built For Farmers,\nTrusted By Buyers",
+        "description": "From verified sellers to secure transactions and nationwide listings, Stock Shop is designed to make livestock trading simple, transparent and trustworthy.",
+        "btn_label": "Start Buying Today",
+        "btn_link": "",
+        "trust_badges": "Verified Sellers, Secure Payments, Nationwide Coverage, Premium Support"
+      }
+    },
+    "our_services_hXHbBy": {
+      "type": "our-services",
+      "blocks": {
+        "service_TGEjpR": {
+          "type": "service",
+          "settings": {
+            "icon": "shield",
+            "title": "Verified Seller Program",
+            "description": "Every livestock seller is verified to ensure a trustworthy marketplace.",
+            "features": "Identity Verification\nTrusted Profiles\nFraud Protection",
+            "btn_text": "",
+            "btn_link": ""
+          }
+        },
+        "service_GVwhr4": {
+          "type": "service",
+          "settings": {
+            "icon": "truck",
+            "title": "Livestock Transportation",
+            "description": "Connect with reliable livestock transportation partners across the country.",
+            "features": "Safe Delivery\nGPS Tracking\nNationwide Coverage",
+            "btn_text": "",
+            "btn_link": ""
+          }
+        },
+        "service_aRa8ca": {
+          "type": "service",
+          "settings": {
+            "icon": "stethoscope",
+            "title": "Veterinary Support",
+            "description": "Access professional veterinary guidance before and after your purchase.",
+            "features": "Health Consultation\nCertificates\nExpert Advice",
+            "btn_text": "",
+            "btn_link": ""
+          }
+        },
+        "service_UTqa7i": {
+          "type": "service",
+          "settings": {
+            "icon": "wallet",
+            "title": "Secure Marketplace Payments",
+            "description": "Protected transactions designed for both buyers and sellers.",
+            "features": "Safe Checkout\nPayment Protection\nTransaction History",
+            "btn_text": "",
+            "btn_link": ""
+          }
+        },
+        "service_W3nRFj": {
+          "type": "service",
+          "settings": {
+            "icon": "award",
+            "title": "Premium Seller Membership",
+            "description": "Unlock premium listing tools and increase visibility across the marketplace.",
+            "features": "Featured Listings\nBetter Exposure\nSeller Analytics",
+            "btn_text": "",
+            "btn_link": ""
+          }
+        },
+        "service_AY3eNb": {
+          "type": "service",
+          "settings": {
+            "icon": "headset",
+            "title": "Customer Support",
+            "description": "Dedicated support team available whenever you need assistance.",
+            "features": "Live Chat\nEmail Support\nPriority Assistance",
+            "btn_text": "",
+            "btn_link": ""
+          }
+        },
+        "counter_BjcUiR": {
+          "type": "counter",
+          "disabled": true,
+          "settings": {
+            "number": "15",
+            "suffix": "K+",
+            "label": "Marketplace Listings"
+          }
+        },
+        "counter_qKwXyY": {
+          "type": "counter",
+          "disabled": true,
+          "settings": {
+            "number": "6",
+            "suffix": "K+",
+            "label": "Verified Sellers"
+          }
+        },
+        "counter_68jnCm": {
+          "type": "counter",
+          "disabled": true,
+          "settings": {
+            "number": "24",
+            "suffix": "/7",
+            "label": "Support"
+          }
+        },
+        "counter_fG6cwN": {
+          "type": "counter",
+          "disabled": true,
+          "settings": {
+            "number": "98",
+            "suffix": "%",
+            "label": "Successful Transactions"
+          }
+        }
+      },
+      "block_order": [
+        "service_TGEjpR",
+        "service_GVwhr4",
+        "service_aRa8ca",
+        "service_UTqa7i",
+        "service_W3nRFj",
+        "service_AY3eNb",
+        "counter_BjcUiR",
+        "counter_qKwXyY",
+        "counter_68jnCm",
+        "counter_fG6cwN"
+      ],
+      "name": "Premium Our Services",
+      "settings": {
+        "container_width": 1600,
+        "padding_top": 140,
+        "padding_bottom": 140,
+        "color_bg": "#ffffff",
+        "color_heading": "#111827",
+        "color_text": "#4b5563",
+        "color_gold": "#d4af37",
+        "color_green": "#143122",
+        "badge_text": "Premium Marketplace Services",
+        "heading": "Everything You Need To Trade Livestock With Confidence",
+        "description": "Stock Shop provides powerful marketplace tools and professional services designed to make buying and selling livestock easier, safer and faster.",
+        "btn_label": "",
+        "btn_link": "",
+        "cta_heading": "Ready To Start Buying Or Selling Livestock?",
+        "cta_desc": "Join thousands of farmers and buyers using Stock Shop every day.",
+        "cta_btn_1_text": "Browse Listings",
+        "cta_btn_1_link": "",
+        "cta_btn_2_text": "Become A Seller",
+        "cta_btn_2_link": ""
+      }
     }
   },
   "order": [
     "marketplace_hero_4jDRMV",
     "featured_collections_GEeTKC",
-    "product_list_fa6P9H"
+    "listings_LWEc7C",
+    "product_list_fa6P9H",
+    "feature_seller_qykNm8",
+    "why_choose_6imDnn",
+    "our_services_hXHbBy"
   ]
 }

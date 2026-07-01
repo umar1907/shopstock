@@ -1,0 +1,958 @@
+{% schema %}
+{
+  "name": "Premium Why Choose",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1200,
+      "max": 1800,
+      "step": 50,
+      "unit": "px",
+      "label": "Container Maximum Width",
+      "default": 1600
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 60,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 60,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 140
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Background Color",
+      "default": "#F8F7F3"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Heading Color",
+      "default": "#1A3626"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text Color",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "color",
+      "id": "color_gold",
+      "label": "Accent Gold",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "color",
+      "id": "color_green",
+      "label": "Dark Green (Hover)",
+      "default": "#12261B"
+    },
+    {
+      "type": "header",
+      "content": "Left Content"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Why Choose Stock Shop"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Built For Farmers,\nTrusted By Buyers"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "From verified sellers to secure transactions and nationwide listings, Stock Shop is designed to make livestock trading simple, transparent and trustworthy."
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Label",
+      "default": "Start Buying Today"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "textarea",
+      "id": "trust_badges",
+      "label": "Trust Badges (Comma Separated)",
+      "default": "Verified Sellers, Secure Payments, Nationwide Coverage, Premium Support"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_card",
+      "name": "Feature Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield Check" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "map", "label": "Map" },
+            { "value": "headset", "label": "Headset" },
+            { "value": "award", "label": "Award" },
+            { "value": "users", "label": "Users" }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Short description about this premium feature."
+        },
+        {
+          "type": "text",
+          "id": "stat_number",
+          "label": "Statistic Number (For Animation)",
+          "default": "6000"
+        },
+        {
+          "type": "text",
+          "id": "stat_suffix",
+          "label": "Statistic Suffix",
+          "default": "+"
+        },
+        {
+          "type": "text",
+          "id": "stat_label",
+          "label": "Statistic Label",
+          "default": "Verified Sellers"
+        }
+      ]
+    },
+    {
+      "type": "timeline_step",
+      "name": "Timeline Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Choose Listing"
+        }
+      ]
+    },
+    {
+      "type": "statistic",
+      "name": "Statistic Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "15"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix (e.g. K+, %)",
+          "default": "K+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Active Listings"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Why Choose",
+      "blocks": [
+        { "type": "feature_card", "settings": { "icon": "shield", "title": "Verified Sellers", "description": "Every seller goes through verification before listing livestock.", "stat_number": "6000", "stat_suffix": "+", "stat_label": "Verified Sellers" } },
+        { "type": "feature_card", "settings": { "icon": "lock", "title": "Secure Transactions", "description": "Buy and sell with confidence using trusted payment methods.", "stat_number": "98", "stat_suffix": "%", "stat_label": "Successful Transactions" } },
+        { "type": "feature_card", "settings": { "icon": "map", "title": "Nationwide Marketplace", "description": "Find livestock from farms across the country.", "stat_number": "50", "stat_suffix": "", "stat_label": "States Covered" } },
+        { "type": "feature_card", "settings": { "icon": "headset", "title": "Fast Customer Support", "description": "Dedicated support team available whenever you need help.", "stat_number": "24", "stat_suffix": "/7", "stat_label": "Support" } },
+        { "type": "feature_card", "settings": { "icon": "award", "title": "Premium Listings", "description": "High-quality livestock listings with complete information.", "stat_number": "15000", "stat_suffix": "+", "stat_label": "Active Listings" } },
+        { "type": "feature_card", "settings": { "icon": "users", "title": "Trusted Community", "description": "Thousands of farmers and buyers trust Stock Shop every day.", "stat_number": "4.9", "stat_suffix": "★", "stat_label": "Average Rating" } },
+        { "type": "timeline_step", "settings": { "title": "Choose Listing" } },
+        { "type": "timeline_step", "settings": { "title": "Contact Seller" } },
+        { "type": "timeline_step", "settings": { "title": "Secure Deal" } },
+        { "type": "timeline_step", "settings": { "title": "Receive Livestock" } },
+        { "type": "statistic", "settings": { "number": "15", "suffix": "K+", "label": "Active Listings" } },
+        { "type": "statistic", "settings": { "number": "6", "suffix": "K+", "label": "Verified Sellers" } },
+        { "type": "statistic", "settings": { "number": "98", "suffix": "%", "label": "Successful Deals" } },
+        { "type": "statistic", "settings": { "number": "4.9", "suffix": "★", "label": "Customer Rating" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  #shopify-section-{{ section.id }} {
+    --ws-bg: {{ section.settings.color_bg }};
+    --ws-heading: {{ section.settings.color_heading }};
+    --ws-text: {{ section.settings.color_text }};
+    --ws-gold: {{ section.settings.color_gold }};
+    --ws-gold-rgb: 212, 175, 55;
+    --ws-green: {{ section.settings.color_green }};
+    --ws-white: #ffffff;
+    --ws-glass-bg: rgba(255, 255, 255, 0.65);
+    --ws-glass-border: rgba(255, 255, 255, 0.9);
+    --ws-font-heading: 'Playfair Display', serif;
+    --ws-font-body: 'Inter', sans-serif;
+    --ws-padding-top: {{ section.settings.padding_top }}px;
+    --ws-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --ws-container-width: {{ section.settings.container_width }}px;
+
+    background-color: var(--ws-bg);
+    position: relative;
+    overflow: hidden;
+    color: var(--ws-text);
+    font-family: var(--ws-font-body);
+  }
+
+  /* Typography */
+  .ws-heading-font { font-family: var(--ws-font-heading); }
+  .ws-h2 {
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ws-heading);
+    margin: 0 0 24px 0;
+    white-space: pre-line;
+    letter-spacing: -1px;
+  }
+  .ws-p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ws-text);
+    max-width: 720px;
+    margin: 0 0 40px 0;
+    opacity: 0.9;
+  }
+
+  /* Background Decorations */
+  .ws-bg-elements {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .ws-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    animation: float 20s ease-in-out infinite alternate;
+  }
+  .ws-blob-1 {
+    top: -10%; left: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--ws-gold) 0%, transparent 70%);
+  }
+  .ws-blob-2 {
+    bottom: -20%; right: -5%;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, #A5D6A7 0%, transparent 70%);
+    animation-delay: -5s;
+    opacity: 0.2;
+  }
+  .ws-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 100px 100px;
+    mask-image: radial-gradient(ellipse at center, black 10%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 80%);
+  }
+
+  /* Container */
+  .ws-container {
+    max-width: var(--ws-container-width);
+    margin: 0 auto;
+    padding: var(--ws-padding-top) 40px var(--ws-padding-bottom);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Layout */
+  .ws-layout {
+    display: flex;
+    gap: 80px;
+    align-items: flex-start;
+  }
+  .ws-left-content {
+    flex: 0 0 45%;
+    position: sticky;
+    top: 120px;
+  }
+  .ws-right-content {
+    flex: 0 0 55%;
+  }
+
+  /* Left Content Elements */
+  .ws-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(var(--ws-gold-rgb), 0.15);
+    color: #9A7B20;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 20px;
+    border-radius: 50px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(var(--ws-gold-rgb), 0.3);
+  }
+  .ws-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--ws-gold);
+    color: var(--ws-white);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 18px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 20px rgba(var(--ws-gold-rgb), 0.3);
+    margin-bottom: 50px;
+  }
+  .ws-cta:hover {
+    background: var(--ws-green);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(26, 54, 38, 0.2);
+  }
+  .ws-cta svg {
+    transition: transform 0.3s ease;
+  }
+  .ws-cta:hover svg {
+    transform: translateX(5px);
+  }
+
+  .ws-trust-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .ws-trust-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ws-heading);
+  }
+  .ws-trust-list li svg {
+    color: var(--ws-gold);
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Feature Cards (Right Content) */
+  .ws-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  /* Staggering the grid on desktop */
+  @media (min-width: 1025px) {
+    .ws-cards-grid .ws-card:nth-child(even) {
+      transform: translateY(40px);
+    }
+    .ws-cards-grid .ws-card:nth-child(even):hover {
+      transform: translateY(30px);
+    }
+  }
+
+  .ws-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.4) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--ws-glass-border);
+    border-radius: 26px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .ws-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 26px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--ws-gold), transparent 50%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .ws-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.06);
+  }
+  .ws-card:hover::before {
+    opacity: 1;
+  }
+
+  .ws-card-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(var(--ws-gold-rgb), 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--ws-gold);
+    transition: transform 0.35s ease;
+  }
+  .ws-card:hover .ws-card-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: var(--ws-gold);
+    color: var(--ws-white);
+  }
+
+  .ws-card-title {
+    font-family: var(--ws-font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ws-heading);
+    margin: 0 0 12px 0;
+  }
+  .ws-card-desc {
+    font-size: 15px;
+    color: var(--ws-text);
+    line-height: 1.5;
+    margin: 0 0 30px 0;
+    flex-grow: 1;
+  }
+
+  .ws-card-stat {
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding-top: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .ws-stat-val {
+    font-family: var(--ws-font-heading);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--ws-heading);
+    line-height: 1;
+  }
+  .ws-stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ws-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 4px;
+  }
+
+  .ws-card-arrow {
+    position: absolute;
+    top: 40px;
+    right: 30px;
+    color: var(--ws-gold);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.35s ease;
+  }
+  .ws-card:hover .ws-card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Timeline */
+  .ws-timeline-wrapper {
+    margin-top: 140px;
+    background: var(--ws-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--ws-glass-border);
+    border-radius: 30px;
+    padding: 60px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.02);
+  }
+  .ws-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  .ws-timeline::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    right: 40px;
+    height: 2px;
+    background: rgba(var(--ws-gold-rgb), 0.2);
+    z-index: 1;
+  }
+  .ws-timeline-progress {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    height: 2px;
+    background: var(--ws-gold);
+    z-index: 2;
+    width: 0%;
+    transition: width 1.5s ease-out;
+  }
+  .ws-timeline.ws-reveal-active .ws-timeline-progress {
+    width: calc(100% - 80px);
+  }
+  .ws-timeline-step {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 150px;
+    text-align: center;
+  }
+  .ws-step-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--ws-white);
+    border: 2px solid rgba(var(--ws-gold-rgb), 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ws-gold);
+    font-family: var(--ws-font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  }
+  .ws-timeline-step:hover .ws-step-circle {
+    background: var(--ws-gold);
+    color: var(--ws-white);
+    transform: scale(1.1);
+    border-color: var(--ws-gold);
+  }
+  .ws-step-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ws-heading);
+  }
+
+  /* Trust Strip */
+  .ws-trust-strip {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+  .ws-trust-stat {
+    background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.3) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--ws-glass-border);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+    transition: transform 0.3s ease;
+  }
+  .ws-trust-stat:hover {
+    transform: translateY(-8px);
+  }
+  .ws-trust-stat-val {
+    font-family: var(--ws-font-heading);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--ws-heading);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ws-trust-stat-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ws-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Animations */
+  @keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    33% { transform: translate(30px, -50px) rotate(10deg) scale(1.05); }
+    66% { transform: translate(-20px, 20px) rotate(-5deg) scale(0.95); }
+    100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  }
+  .ws-reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .ws-reveal-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .ws-layout {
+      flex-direction: column;
+      gap: 60px;
+    }
+    .ws-left-content {
+      position: relative;
+      top: 0;
+      flex: none;
+      width: 100%;
+      text-align: center;
+    }
+    .ws-p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .ws-trust-list {
+      align-items: center;
+    }
+    .ws-right-content {
+      flex: none;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .ws-trust-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      --ws-padding-top: {{ section.settings.padding_top | divided_by: 1.5 }}px;
+      --ws-padding-bottom: {{ section.settings.padding_bottom | divided_by: 1.5 }}px;
+    }
+    .ws-container {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .ws-cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .ws-timeline-wrapper {
+      padding: 40px 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .ws-timeline {
+      width: max-content;
+      gap: 60px;
+      padding: 0 20px;
+    }
+    .ws-timeline::before {
+      left: 20px; right: 20px; width: calc(100% - 40px);
+    }
+    .ws-timeline-step {
+      scroll-snap-align: center;
+    }
+    .ws-trust-strip {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 20px;
+      padding-bottom: 20px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .ws-trust-stat {
+      flex: 0 0 80%;
+      scroll-snap-align: center;
+    }
+    /* Hide scrollbar for slider */
+    .ws-timeline-wrapper::-webkit-scrollbar,
+    .ws-trust-strip::-webkit-scrollbar {
+      display: none;
+    }
+    .ws-timeline-wrapper, .ws-trust-strip {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+</style>
+
+<div class="ws-bg-elements">
+  <div class="ws-blob ws-blob-1"></div>
+  <div class="ws-blob ws-blob-2"></div>
+  <div class="ws-grid-lines"></div>
+</div>
+
+<div class="ws-container">
+  <div class="ws-layout">
+    
+    <!-- Left Content -->
+    <div class="ws-left-content ws-reveal-up">
+      {% if section.settings.badge_text != blank %}
+        <div class="ws-badge">{{ section.settings.badge_text }}</div>
+      {% endif %}
+      
+      {% if section.settings.heading != blank %}
+        <h2 class="ws-h2 ws-heading-font">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <p class="ws-p">{{ section.settings.description }}</p>
+      {% endif %}
+      
+      {% if section.settings.btn_label != blank %}
+        <a href="{{ section.settings.btn_link | default: '#' }}" class="ws-cta">
+          {{ section.settings.btn_label }}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      {% endif %}
+
+      {% if section.settings.trust_badges != blank %}
+        <ul class="ws-trust-list">
+          {% assign badges = section.settings.trust_badges | split: ',' %}
+          {% for badge in badges %}
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              {{ badge | strip }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+    <!-- Right Content (Cards) -->
+    <div class="ws-right-content">
+      <div class="ws-cards-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'feature_card' %}
+            <div class="ws-card ws-reveal-up" style="transition-delay: {{ forloop.index | times: 100 }}ms;" {{ block.shopify_attributes }}>
+              <div class="ws-card-icon">
+                {% case block.settings.icon %}
+                  {% when 'shield' %}
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                  {% when 'lock' %}
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  {% when 'map' %}
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                  {% when 'headset' %}
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+                  {% when 'award' %}
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                  {% when 'users' %}
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                {% endcase %}
+              </div>
+              <h3 class="ws-card-title">{{ block.settings.title }}</h3>
+              <p class="ws-card-desc">{{ block.settings.description }}</p>
+              
+              <div class="ws-card-stat">
+                <div class="ws-stat-val">
+                  {% assign is_decimal = false %}
+                  {% if block.settings.stat_number contains '.' %}
+                    {% assign is_decimal = true %}
+                  {% endif %}
+                  <span class="ws-count-up" data-target="{{ block.settings.stat_number }}" data-decimals="{% if is_decimal %}1{% else %}0{% endif %}">0</span>{{ block.settings.stat_suffix }}
+                </div>
+                <div class="ws-stat-label">{{ block.settings.stat_label }}</div>
+              </div>
+
+              <svg class="ws-card-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  {% assign timeline_count = 0 %}
+  {% for block in section.blocks %}
+    {% if block.type == 'timeline_step' %}{% assign timeline_count = timeline_count | plus: 1 %}{% endif %}
+  {% endfor %}
+  
+  {% if timeline_count > 0 %}
+  <div class="ws-timeline-wrapper ws-reveal-up">
+    <div class="ws-timeline">
+      <div class="ws-timeline-progress"></div>
+      {% assign step_number = 1 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'timeline_step' %}
+          <div class="ws-timeline-step" {{ block.shopify_attributes }}>
+            <div class="ws-step-circle">{{ step_number }}</div>
+            <div class="ws-step-title">{{ block.settings.title }}</div>
+          </div>
+          {% assign step_number = step_number | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Trust Strip -->
+  {% assign stat_count = 0 %}
+  {% for block in section.blocks %}
+    {% if block.type == 'statistic' %}{% assign stat_count = stat_count | plus: 1 %}{% endif %}
+  {% endfor %}
+
+  {% if stat_count > 0 %}
+  <div class="ws-trust-strip ws-reveal-up">
+    {% for block in section.blocks %}
+      {% if block.type == 'statistic' %}
+        <div class="ws-trust-stat" {{ block.shopify_attributes }}>
+          <div class="ws-trust-stat-val">
+            {% assign is_decimal = false %}
+            {% if block.settings.number contains '.' %}
+              {% assign is_decimal = true %}
+            {% endif %}
+            <span class="ws-count-up" data-target="{{ block.settings.number }}" data-decimals="{% if is_decimal %}1{% else %}0{% endif %}">0</span>{{ block.settings.suffix }}
+          </div>
+          <div class="ws-trust-stat-label">{{ block.settings.label }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+</div>
+
+<script>
+  (function() {
+    function initWhyChoose() {
+      // Intersection Observer for Reveal Animations
+      const revealElements = document.querySelectorAll('#shopify-section-{{ section.id }} .ws-reveal-up');
+      
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ws-reveal-active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // Intersection Observer for CountUp Animations
+      const countElements = document.querySelectorAll('#shopify-section-{{ section.id }} .ws-count-up');
+      
+      const countObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+            animateCountUp(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      countElements.forEach(el => countObserver.observe(el));
+
+      function animateCountUp(el) {
+        const target = parseFloat(el.getAttribute('data-target'));
+        const decimals = el.getAttribute('data-decimals') === '1' ? 1 : 0;
+        const duration = 2000; // 2 seconds
+        let start = null;
+
+        function step(timestamp) {
+          if (!start) start = timestamp;
+          const progress = Math.min((timestamp - start) / duration, 1);
+          // easeOutQuart
+          const easeProgress = 1 - Math.pow(1 - progress, 4);
+          const current = easeProgress * target;
+          
+          if (decimals) {
+            el.innerText = current.toFixed(1);
+          } else {
+            el.innerText = Math.floor(current).toLocaleString();
+          }
+
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            if (decimals) {
+              el.innerText = target.toFixed(1);
+            } else {
+              el.innerText = parseInt(target, 10).toLocaleString();
+            }
+            el.classList.add('counted');
+          }
+        }
+        window.requestAnimationFrame(step);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initWhyChoose);
+
+    // Support for Shopify Theme Editor
+    if (window.Shopify && Shopify.DesignMode) {
+      document.addEventListener('shopify:section:load', function(event) {
+        if (event.detail.sectionId === '{{ section.id }}') {
+          initWhyChoose();
+        }
+      });
+    }
+  })();
+</script>
