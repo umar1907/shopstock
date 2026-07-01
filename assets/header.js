@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Sticky Header Logic
   const header = document.getElementById('StockShopHeader');
-  const stickyEnabled = header.classList.contains('sticky-enabled');
+  const stickyEnabled = header && header.classList.contains('sticky-enabled');
   const scrollThreshold = 130; 
 
   if (stickyEnabled) {
@@ -14,44 +14,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // Mobile Menu Logic
-  const mobileToggle = document.querySelector('.mobile-menu-toggle');
-  const mobileMenu = document.getElementById('MobileMenu');
-  const closeMenuBtn = document.querySelector('.close-mobile-menu');
+  // Site Drawer Logic
+  const drawer = document.getElementById('SiteDrawer');
+  const openBtns = document.querySelectorAll('.js-drawer-open');
+  const closeBtns = document.querySelectorAll('.js-drawer-close');
   const body = document.body;
 
-  function openMenu() {
-    mobileMenu.classList.add('is-open');
-    body.style.overflow = 'hidden';
-    mobileToggle.setAttribute('aria-expanded', 'true');
+  function openDrawer() {
+    if(drawer) {
+      drawer.classList.add('is-open');
+      body.style.overflow = 'hidden';
+    }
   }
 
-  function closeMenu() {
-    mobileMenu.classList.remove('is-open');
-    body.style.overflow = '';
-    mobileToggle.setAttribute('aria-expanded', 'false');
+  function closeDrawer() {
+    if(drawer) {
+      drawer.classList.remove('is-open');
+      body.style.overflow = '';
+    }
   }
 
-  if (mobileToggle && mobileMenu) {
-    mobileToggle.addEventListener('click', openMenu);
-    closeMenuBtn.addEventListener('click', closeMenu);
-    mobileMenu.querySelector('.mobile-menu-overlay').addEventListener('click', closeMenu);
-  }
-
-  // Accordion Logic for Mobile Menu
-  const accordionTriggers = document.querySelectorAll('.accordion-trigger');
-  accordionTriggers.forEach(trigger => {
-    trigger.addEventListener('click', (e) => {
-      e.preventDefault();
-      const content = trigger.nextElementSibling;
-      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-      
-      trigger.setAttribute('aria-expanded', !isExpanded);
-      if (!isExpanded) {
-        content.style.maxHeight = content.scrollHeight + 'px';
-      } else {
-        content.style.maxHeight = '0';
-      }
-    });
-  });
+  openBtns.forEach(btn => btn.addEventListener('click', openDrawer));
+  closeBtns.forEach(btn => btn.addEventListener('click', closeDrawer));
 });
+// Mobile Scroll Logic for Search Bar
+let lastScrollTop = 0;
+const mobileSearchRow = document.querySelector('.mobile-search-row');
+
+window.addEventListener('scroll', () => {
+  if (window.innerWidth <= 992 && mobileSearchRow) { // Sirf mobile par chale
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (st > lastScrollTop && st > 100) {
+      // Scroll Down - Hide
+      mobileSearchRow.classList.add('hide-search');
+    } else {
+      // Scroll Up - Show
+      mobileSearchRow.classList.remove('hide-search');
+    }
+    lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+  }
+}, { passive: true });

@@ -15,25 +15,25 @@
 {%- endstyle -%}
 
 <header id="StockShopHeader" class="stockshop-header {% if section.settings.enable_sticky %}sticky-enabled{% endif %}">
-
+  
   {%- if section.settings.show_topbar -%}
     <div class="header-topbar">
       <div class="topbar-container">
         <div class="topbar-left">
           {%- if section.settings.phone != blank -%}
             <a href="tel:{{ section.settings.phone | remove: ' ' }}" class="topbar-link">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               {{ section.settings.phone }}
             </a>
           {%- endif -%}
           {%- if section.settings.email != blank -%}
             <a href="mailto:{{ section.settings.email }}" class="topbar-link">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               {{ section.settings.email }}
             </a>
           {%- endif -%}
         </div>
-
+        
         <div class="topbar-center">
           <span class="topbar-announcement">{{ section.settings.announcement_text }}</span>
         </div>
@@ -54,10 +54,10 @@
 
   <div class="header-main">
     <div class="header-main-container">
-
+      
       <div class="header-logo">
-        <button type="button" class="mobile-menu-toggle" aria-label="Open menu" aria-controls="MobileMenu" aria-expanded="false">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <button type="button" class="drawer-toggle-btn js-drawer-open" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
         </button>
         <a href="{{ routes.root_url }}">
           {%- if section.settings.logo != blank -%}
@@ -77,27 +77,10 @@
 
       <div class="header-actions">
         {% render 'header-icons', section: section %}
+        <a href="{{ section.settings.main_cta_link }}" class="btn-main-cta desktop-only" style="margin-left: 12px;">{{ section.settings.main_cta_text }}</a>
       </div>
 
     </div>
-
-    <nav class="header-navigation desktop-only">
-      <ul class="nav-list">
-        {%- for link in section.settings.menu.links -%}
-          <li class="nav-item {% if link.title == 'Categories' %}has-mega-menu{% endif %}">
-            <a href="{{ link.url }}" class="nav-link {% if link.active %}active{% endif %}">
-              {{ link.title }}
-            </a>
-            {%- if link.title == 'Categories' -%}
-              {% render 'mega-menu', section: section %}
-            {%- endif -%}
-          </li>
-        {%- endfor -%}
-        <li class="nav-item-cta">
-          <a href="{{ section.settings.main_cta_link }}" class="btn-main-cta">{{ section.settings.main_cta_text }}</a>
-        </li>
-      </ul>
-    </nav>
   </div>
 
   <div class="mobile-search-row mobile-only">
@@ -106,7 +89,37 @@
 
 </header>
 
-{% render 'mobile-menu', section: section %}
+<div id="SiteDrawer" class="site-drawer">
+  <div class="drawer-overlay js-drawer-close"></div>
+  <div class="drawer-panel">
+    
+    <div class="drawer-header">
+      <div class="logo-text-wrapper">
+        <span class="logo-title" style="font-size: 20px;">STOCKSHOP</span>
+      </div>
+      <button class="drawer-close-btn js-drawer-close" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-content">
+      <ul class="drawer-nav-list">
+        {%- for link in section.settings.menu.links -%}
+          <li class="drawer-nav-item">
+            <a href="{{ link.url }}" class="drawer-nav-link">{{ link.title }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div class="drawer-footer mobile-only">
+      <a href="{{ section.settings.main_cta_link }}" class="btn-main-cta" style="width: 100%; display: flex; justify-content: center;">
+        {{ section.settings.main_cta_text }}
+      </a>
+    </div>
+
+  </div>
+</div>
 
 {% schema %}
 {
