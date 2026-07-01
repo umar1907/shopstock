@@ -36,7 +36,9 @@
         "trust_badge_brkHV9",
         "trust_badge_qnaH7R"
       ],
-      "custom_css": [],
+      "custom_css": [
+        "path{display: none;}"
+      ],
       "name": "Premium Marketplace Hero",
       "settings": {
         "bg_image": "shopify://shop_images/1724839480_KDn6K7VugmqGRIsn.png",
